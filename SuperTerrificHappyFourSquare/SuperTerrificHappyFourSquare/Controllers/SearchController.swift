@@ -7,12 +7,20 @@
 //
 
 import UIKit
+import MapKit
+import CoreLocation
 
 class SearchController: UIViewController {
+    
+    let searchView = SearchView()
+    let locationManager = CLLocationManager()
+    let searchRadius: CLLocationDistance = 100.0
+    
+    //var venu = [Venue]
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
+        
     }
 
 
