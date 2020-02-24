@@ -15,8 +15,8 @@ struct FourSquareAPIClient {
     
     static func getRestaurants(query: String, completion: @escaping (Result<[Venue], AppError>) -> ()){
         
-        
-        let endpointURL = "https://api.foursquare.com/v2/venues/search?client_id=\(APIKey.clientID)&client_secret=\(APIKey.clientSecret)&v=20200221&near=Queens&query=\(query)"
+       
+        let endpointURL = "https://api.foursquare.com/v2/venues/search?client_id=\(APIKeyclientID)&client_secret=\(APIKey.clientSecret)&v=20200221&near=Queens&query=\(query)"
         
     
         guard let url = URL(string: endpointURL) else {
