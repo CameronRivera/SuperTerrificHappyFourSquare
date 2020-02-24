@@ -9,13 +9,39 @@
 import UIKit
 
 class ShowAllCollections: UIView {
+    
+    public lazy var collectionView: UICollectionView = {
+        let layout = UICollectionViewFlowLayout()
+        layout.scrollDirection = .vertical
+        let cv = UICollectionView(frame: CGRect.zero, collectionViewLayout: layout)
+        cv.backgroundColor = .systemGroupedBackground
+        return cv
+    }()
 
-    /*
-    // Only override draw() if you perform custom drawing.
-    // An empty implementation adversely affects performance during animation.
-    override func draw(_ rect: CGRect) {
-        // Drawing code
-    }
-    */
+        override init(frame: CGRect) {
+            super.init(frame: UIScreen.main.bounds)
+            commonInit()
+        }
+        
+        required init?(coder: NSCoder) {
+            super .init(coder: coder)
+            commonInit()
+        }
+        
+        private func commonInit(){
+            setupLayoutConstraints()
+        }
+    
+    private func setupLayoutConstraints() {
+         addSubview(collectionView)
+         collectionView.translatesAutoresizingMaskIntoConstraints = false
+         NSLayoutConstraint.activate([
+            collectionView.topAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor),
+             collectionView.leadingAnchor.constraint(equalTo: leadingAnchor),
+             collectionView.trailingAnchor.constraint(equalTo: trailingAnchor),
+             collectionView.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor)
+         ])
+     }
+
 
 }
