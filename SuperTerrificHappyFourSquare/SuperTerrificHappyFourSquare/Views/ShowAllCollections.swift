@@ -17,6 +17,12 @@ class ShowAllCollections: UIView {
         cv.backgroundColor = .systemGroupedBackground
         return cv
     }()
+    
+    public lazy var textField: UITextField = {
+        let tf = UITextField()
+        tf.placeholder = "Enter Name Of Your Category"
+        return tf
+    }()
 
         override init(frame: CGRect) {
             super.init(frame: UIScreen.main.bounds)
@@ -36,7 +42,7 @@ class ShowAllCollections: UIView {
          addSubview(collectionView)
          collectionView.translatesAutoresizingMaskIntoConstraints = false
          NSLayoutConstraint.activate([
-            collectionView.topAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor),
+            collectionView.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor),
              collectionView.leadingAnchor.constraint(equalTo: leadingAnchor),
              collectionView.trailingAnchor.constraint(equalTo: trailingAnchor),
              collectionView.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor)

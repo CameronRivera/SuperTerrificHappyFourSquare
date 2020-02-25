@@ -15,7 +15,7 @@ class CategoryController: UIViewController {
        
        // private var dataPersistence: DataPersistence<Name>
        
-       //var addedCategory: Category
+       //var addedVenue: Venue
        
        override func loadView() {
            view = categoryView
@@ -29,6 +29,8 @@ class CategoryController: UIViewController {
         
         categoryView.tableView.dataSource = self
         categoryView.tableView.delegate = self
+        
+        categoryView.tableView.register(CustomTableViewCell.self, forCellReuseIdentifier: "customTableViewCell")
     }
     
     //    init(_ dataPersistence: DataPersistence<Name>, category: Category){
@@ -53,6 +55,9 @@ extension CategoryController: UITableViewDataSource {
             fatalError("could not downcast to CustomTableViewCell")
         }
         cell.backgroundColor = .systemGroupedBackground
+        
+        //Used for testing purpose
+        //cell.configureTableViewCell("Test")
         return cell
     }
 }

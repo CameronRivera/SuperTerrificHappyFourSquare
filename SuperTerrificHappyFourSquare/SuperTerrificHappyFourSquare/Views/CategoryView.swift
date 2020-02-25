@@ -12,7 +12,7 @@ class CategoryView: UIView {
 
    public lazy var tableView: UITableView = {
         let tv = UITableView()
-       // tv.backgroundColor = .systemGreen
+        tv.backgroundColor = .systemRed
         return tv
     }()
 
@@ -34,7 +34,7 @@ class CategoryView: UIView {
          addSubview(tableView)
          tableView.translatesAutoresizingMaskIntoConstraints = false
          NSLayoutConstraint.activate([
-            tableView.topAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor),
+            tableView.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor),
              tableView.leadingAnchor.constraint(equalTo: leadingAnchor),
              tableView.trailingAnchor.constraint(equalTo: trailingAnchor),
              tableView.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor)
