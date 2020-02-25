@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		C40D6F932405DB6C00428826 /* VenuePhotoInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = C40D6F922405DB6C00428826 /* VenuePhotoInfo.swift */; };
 		C4491E18240082E100D47255 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4491E17240082E100D47255 /* AppDelegate.swift */; };
 		C4491E1A240082E100D47255 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4491E19240082E100D47255 /* SceneDelegate.swift */; };
 		C4491E1C240082E100D47255 /* SearchController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4491E1B240082E100D47255 /* SearchController.swift */; };
@@ -43,6 +44,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		C40D6F922405DB6C00428826 /* VenuePhotoInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VenuePhotoInfo.swift; sourceTree = "<group>"; };
 		C4491E14240082E100D47255 /* SuperTerrificHappyFourSquare.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SuperTerrificHappyFourSquare.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C4491E17240082E100D47255 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C4491E19240082E100D47255 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -198,6 +200,7 @@
 			children = (
 				C4491E5C2400880500D47255 /* VenueInfo.swift */,
 				C4491E61240089B100D47255 /* APIKey.swift */,
+				C40D6F922405DB6C00428826 /* VenuePhotoInfo.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -316,6 +319,7 @@
 				C4491E322400840600D47255 /* DetailViewController.swift in Sources */,
 				C4491E3C2400868900D47255 /* DetailView.swift in Sources */,
 				C4491E362400857200D47255 /* ShowAllCollectionsController.swift in Sources */,
+				C40D6F932405DB6C00428826 /* VenuePhotoInfo.swift in Sources */,
 				C4491E40240086B600D47255 /* EmptyStateView.swift in Sources */,
 				C4491E382400867100D47255 /* SearchView.swift in Sources */,
 				C4491E4C2400876700D47255 /* CustomTableViewCell.swift in Sources */,
