@@ -71,7 +71,8 @@ class CustomCollectionCell: UICollectionViewCell {
     private func setUpCategoryLabelConstraints(){
         addSubview(categoryLabel)
         categoryLabel.translatesAutoresizingMaskIntoConstraints = false
-        NSLayoutConstraint.activate([categoryLabel.centerXAnchor.constraint(equalTo: centerXAnchor), categoryLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -8), categoryLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 8)])
+        NSLayoutConstraint.activate([categoryLabel.centerXAnchor.constraint(equalTo: centerXAnchor), categoryLabel.centerYAnchor.constraint(equalTo: centerYAnchor),
+            categoryLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -8), categoryLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 8)])
     }
     
     private func setUpTintedViewConstraints(){
@@ -113,11 +114,13 @@ class CustomCollectionCell: UICollectionViewCell {
     
     public func configureCategoryCollectionCell(_ model: String){
         DispatchQueue.main.async{
-            self.imageView.alpha = 0.0
+            self.imageView.alpha = 1.0
             self.addButton.alpha = 0.0
             self.tintedView.alpha = 0.0
             self.categoryLabel.alpha = 1.0
             self.categoryLabel.text = model
+            //FIXME:
+            self.imageView.image = UIImage(systemName: "folder")
         }
     }
     // This function is potentially the same as the one above.
@@ -130,5 +133,4 @@ class CustomCollectionCell: UICollectionViewCell {
             self.categoryLabel.text = model
         }
     }
-
 }
