@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		C40D6F932405DB6C00428826 /* VenuePhotoInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = C40D6F922405DB6C00428826 /* VenuePhotoInfo.swift */; };
+		C4128B2124070A74009A972F /* ExtendedVenueInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4128B2024070A74009A972F /* ExtendedVenueInfo.swift */; };
 		C4491E18240082E100D47255 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4491E17240082E100D47255 /* AppDelegate.swift */; };
 		C4491E1A240082E100D47255 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4491E19240082E100D47255 /* SceneDelegate.swift */; };
 		C4491E1C240082E100D47255 /* SearchController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4491E1B240082E100D47255 /* SearchController.swift */; };
@@ -45,6 +46,7 @@
 
 /* Begin PBXFileReference section */
 		C40D6F922405DB6C00428826 /* VenuePhotoInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VenuePhotoInfo.swift; sourceTree = "<group>"; };
+		C4128B2024070A74009A972F /* ExtendedVenueInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtendedVenueInfo.swift; sourceTree = "<group>"; };
 		C4491E14240082E100D47255 /* SuperTerrificHappyFourSquare.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SuperTerrificHappyFourSquare.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C4491E17240082E100D47255 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C4491E19240082E100D47255 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -201,6 +203,7 @@
 				C4491E5C2400880500D47255 /* VenueInfo.swift */,
 				C4491E61240089B100D47255 /* APIKey.swift */,
 				C40D6F922405DB6C00428826 /* VenuePhotoInfo.swift */,
+				C4128B2024070A74009A972F /* ExtendedVenueInfo.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -317,6 +320,7 @@
 				C4491E1C240082E100D47255 /* SearchController.swift in Sources */,
 				C4491E3E2400869C00D47255 /* ShowAllCollections.swift in Sources */,
 				C4491E322400840600D47255 /* DetailViewController.swift in Sources */,
+				C4128B2124070A74009A972F /* ExtendedVenueInfo.swift in Sources */,
 				C4491E3C2400868900D47255 /* DetailView.swift in Sources */,
 				C4491E362400857200D47255 /* ShowAllCollectionsController.swift in Sources */,
 				C40D6F932405DB6C00428826 /* VenuePhotoInfo.swift in Sources */,
