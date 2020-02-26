@@ -23,9 +23,7 @@ class SearchView: UIView {
     
     lazy var eventsListButton: UIButton = {
         let listButton = UIButton()
-        //MARK: ***************** SET THE IMAGE FOR THE BUTTTON HERE "TRIANGLE FLAMES" ***********************
-        listButton.setImage(UIImage(systemName: "TRIANGLE-FLAME"), for: .normal)
-        
+        listButton.setImage(UIImage(named: "TRIANGLE-FLAME"), for: .normal)
         return listButton
     }()
     
@@ -54,9 +52,8 @@ class SearchView: UIView {
         cellLayout.sectionInset = UIEdgeInsets.init(top: 0, left: 1, bottom: 0, right: 1)
         cellLayout.itemSize = CGSize.init(width: 100, height: 100)
         let collectionView = UICollectionView(frame: CGRect.zero, collectionViewLayout: cellLayout)
-        collectionView.backgroundColor = .clear
+        collectionView.backgroundColor = .systemPink
         collectionView.layer.cornerRadius = 5.0
-        collectionView.register(CustomCollectionCell.self, forCellWithReuseIdentifier: "CustomCollectionCell")
         return collectionView
     }()
     
@@ -72,7 +69,7 @@ class SearchView: UIView {
     
     private func commonInit() {
         mapConstraints()
-        eventsListButtonConstraints()
+        optionButtonConstraints()
         searchConstraints()
         locationConstraints()
         collectionViewConstraints()
@@ -96,20 +93,20 @@ class SearchView: UIView {
         venueSearchBar.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
-            venueSearchBar.topAnchor.constraint(equalTo: mapView.topAnchor, constant: 60),
+            venueSearchBar.topAnchor.constraint(equalTo: mapView.topAnchor, constant: 80),
             venueSearchBar.leadingAnchor.constraint(equalTo: mapView.leadingAnchor, constant: 20),
             venueSearchBar.trailingAnchor.constraint(equalTo: mapView.trailingAnchor, constant: -20),
             venueSearchBar.heightAnchor.constraint(equalToConstant: 45)])
         
     }
     
-    private func eventsListButtonConstraints(){
+    private func optionButtonConstraints(){
         addSubview(eventsListButton)
         eventsListButton.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
             eventsListButton.topAnchor.constraint(equalTo: mapView.topAnchor, constant: 15),
-            eventsListButton.leadingAnchor.constraint(equalTo: mapView.trailingAnchor, constant: 10),
+            eventsListButton.leadingAnchor.constraint(equalTo: mapView.trailingAnchor, constant: -40),
             eventsListButton.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor, constant: -10),
             eventsListButton.heightAnchor.constraint(equalToConstant: 45)
         ])
