@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import MapKit
 
 class DetailView: UIView {
     
@@ -53,6 +54,11 @@ class DetailView: UIView {
         return stackView
     }()
     
+    public lazy var mapView: MKMapView = {
+       let mv = MKMapView()
+        return mv
+    }()
+    
     
     override init(frame: CGRect) {
         super.init(frame: UIScreen.main.bounds)
@@ -65,9 +71,10 @@ class DetailView: UIView {
     }
     
     private func commonInit(){
-        setUpCollectionViewConstraints()
+        // setUpCollectionViewConstraints()
         setUpImageViewConstraints()
         setUpStackViewConstraints()
+        setUpMapViewConstraints()
     }
     
     private func setUpCollectionViewConstraints(){
@@ -79,7 +86,7 @@ class DetailView: UIView {
     private func setUpImageViewConstraints(){
         addSubview(imageView)
         imageView.translatesAutoresizingMaskIntoConstraints = false
-        NSLayoutConstraint.activate([imageView.topAnchor.constraint(equalTo: collectionView.bottomAnchor, constant: 20), imageView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 8), imageView.heightAnchor.constraint(equalTo: heightAnchor, multiplier: 0.18), imageView.widthAnchor.constraint(equalTo: widthAnchor, multiplier: 0.4)])
+        NSLayoutConstraint.activate([imageView.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor, constant: 20), imageView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 8), imageView.heightAnchor.constraint(equalTo: heightAnchor, multiplier: 0.18), imageView.widthAnchor.constraint(equalTo: widthAnchor, multiplier: 0.4)])
     }
     
     private func setUpStackViewConstraints(){
@@ -89,7 +96,13 @@ class DetailView: UIView {
         stackView.addArrangedSubview(venueAddressLabel)
         stackView.translatesAutoresizingMaskIntoConstraints = false
         
-        NSLayoutConstraint.activate([stackView.topAnchor.constraint(equalTo: collectionView.bottomAnchor, constant: 20), stackView.leadingAnchor.constraint(equalTo: imageView.trailingAnchor, constant: 20), stackView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -8), stackView.heightAnchor.constraint(equalTo: heightAnchor, multiplier: 0.17)])
+        NSLayoutConstraint.activate([stackView.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor, constant: 20), stackView.leadingAnchor.constraint(equalTo: imageView.trailingAnchor, constant: 20), stackView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -8), stackView.heightAnchor.constraint(equalTo: heightAnchor, multiplier: 0.17)])
+    }
+    
+    private func setUpMapViewConstraints(){
+        addSubview(mapView)
+        mapView.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([mapView.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor, constant: -8), mapView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 8), mapView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -8), mapView.heightAnchor.constraint(equalTo: heightAnchor, multiplier: 0.3)])
     }
 
 }

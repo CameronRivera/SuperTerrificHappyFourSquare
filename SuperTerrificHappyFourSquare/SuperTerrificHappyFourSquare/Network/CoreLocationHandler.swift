@@ -43,28 +43,32 @@ class CoreLocationHandler: NSObject{
         locationManager.startMonitoring(for: region)
     }
     
-    public func convertCoordinateToPlacemark(_ coordinate: CLLocationCoordinate2D){
+    public func convertCoordinateToPlacemark(_ coordinate: CLLocationCoordinate2D, completion: @escaping (Result<CLPlacemark,Error>) -> () ){
         let location = CLLocation(latitude: coordinate.latitude, longitude: coordinate.longitude)
         CLGeocoder().reverseGeocodeLocation(location) { placemarks, error in
             if let error = error {
                 print("ReverseGeolocationError: \(error)")
+                completion(.failure(error))
             }
             
             if let firstMark = placemarks?.first{
                 print("Placemark Information: \(firstMark)")
+                completion(.success(firstMark))
             }
         }
     }
     
-    public func convertPlaceNameToCoordinate(_ placeName: String){
+    public func convertPlaceNameToCoordinate(_ placeName: String, completion: @escaping (Result<CLLocationCoordinate2D, Error>) -> ()){
         CLGeocoder().geocodeAddressString(placeName) { placemarks, error in
             if let error = error{
                 print("Geocode Address Error: \(error)")
+                completion(.failure(error))
             }
             
             if let firstMark = placemarks?.first,
                 let location = firstMark.location {
                 print("Placename Coordinate is: \(location.coordinate)")
+                completion(.success(location.coordinate))
             }
         }
     }
