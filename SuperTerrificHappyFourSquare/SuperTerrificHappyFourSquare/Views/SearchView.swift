@@ -9,6 +9,7 @@
 import UIKit
 import MapKit
 import CoreLocation
+import ImageKit
 
 class SearchView: UIView {
     
@@ -20,28 +21,31 @@ class SearchView: UIView {
         return mapView
     }()
     
-    lazy var venueSearchBar: UITextField = {
-        let venueSearch = UITextField()
-        venueSearch.placeholder = "search"
-        venueSearch.layer.cornerRadius = 10
-        return venueSearch
-    }()
-    
-    lazy var userLocationSearch: UITextField = {
-        let locationSearch = UITextField()
-        locationSearch.placeholder = "New York, NY"
-        locationSearch.layer.cornerRadius = 10
-        return locationSearch
-    }()
-    
     lazy var eventsListButton: UIButton = {
         let listButton = UIButton()
-
-        
         //MARK: ***************** SET THE IMAGE FOR THE BUTTTON HERE "TRIANGLE FLAMES" ***********************
+        listButton.setImage(UIImage(systemName: "TRIANGLE-FLAME"), for: .normal)
         
         return listButton
     }()
+    
+    lazy var venueSearchBar: UITextField = {
+        let venueSearch = UITextField()
+        venueSearch.placeholder = "  search"
+        venueSearch.backgroundColor = .systemBackground
+        venueSearch.layer.cornerRadius = 20
+        return venueSearch
+    }()
+    
+    lazy var locationSearch: UITextField = {
+        let locationSearch = UITextField()
+        locationSearch.placeholder = "  New York, NY"
+        locationSearch.backgroundColor = .systemBackground
+        locationSearch.layer.cornerRadius = 20
+        return locationSearch
+    }()
+    
+    
     
     lazy var venuesCollectionView: UICollectionView = {
         
@@ -52,6 +56,7 @@ class SearchView: UIView {
         let collectionView = UICollectionView(frame: CGRect.zero, collectionViewLayout: cellLayout)
         collectionView.backgroundColor = .clear
         collectionView.layer.cornerRadius = 5.0
+        collectionView.register(CustomCollectionCell.self, forCellWithReuseIdentifier: "CustomCollectionCell")
         return collectionView
     }()
     
@@ -67,43 +72,60 @@ class SearchView: UIView {
     
     private func commonInit() {
         mapConstraints()
+        eventsListButtonConstraints()
         searchConstraints()
-        userLocationConstraints()
+        locationConstraints()
         collectionViewConstraints()
     }
     
     private func mapConstraints() {
         addSubview(mapView)
         mapView.translatesAutoresizingMaskIntoConstraints = false
-        
+        // mapView.isHidden = true
         NSLayoutConstraint.activate([
             mapView.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor, constant: 0),
             mapView.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor, constant: 0),
             mapView.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor, constant: 0),
-            mapView.heightAnchor.constraint(equalToConstant: 500)])
+            mapView.heightAnchor.constraint(equalToConstant: 1000)])
     }
+    
+    
     
     private func searchConstraints() {
         addSubview(venueSearchBar)
         venueSearchBar.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
-            venueSearchBar.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor),
-            venueSearchBar.leadingAnchor.constraint(equalTo: leadingAnchor),
-            venueSearchBar.widthAnchor.constraint(equalToConstant: 300),
+            venueSearchBar.topAnchor.constraint(equalTo: mapView.topAnchor, constant: 60),
+            venueSearchBar.leadingAnchor.constraint(equalTo: mapView.leadingAnchor, constant: 20),
+            venueSearchBar.trailingAnchor.constraint(equalTo: mapView.trailingAnchor, constant: -20),
             venueSearchBar.heightAnchor.constraint(equalToConstant: 45)])
         
     }
     
-    private func userLocationConstraints() {
-        addSubview(userLocationSearch)
-        userLocationSearch.translatesAutoresizingMaskIntoConstraints = false
+    private func eventsListButtonConstraints(){
+        addSubview(eventsListButton)
+        eventsListButton.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
-            userLocationSearch.topAnchor.constraint(equalTo: venueSearchBar.bottomAnchor, constant: 20),
-            userLocationSearch.leadingAnchor.constraint(equalTo: leadingAnchor),
-            userLocationSearch.trailingAnchor.constraint(equalTo: trailingAnchor),
-            userLocationSearch.heightAnchor.constraint(equalToConstant: 45)])
+            eventsListButton.topAnchor.constraint(equalTo: mapView.topAnchor, constant: 15),
+            eventsListButton.leadingAnchor.constraint(equalTo: mapView.trailingAnchor, constant: 10),
+            eventsListButton.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor, constant: -10),
+            eventsListButton.heightAnchor.constraint(equalToConstant: 45)
+        ])
+        
+        
+    }
+    
+    private func locationConstraints() {
+        addSubview(locationSearch)
+        locationSearch.translatesAutoresizingMaskIntoConstraints = false
+        
+        NSLayoutConstraint.activate([
+            locationSearch.topAnchor.constraint(equalTo: venueSearchBar.bottomAnchor, constant: 20),
+            locationSearch.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 20),
+            locationSearch.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -20),
+            locationSearch.heightAnchor.constraint(equalToConstant: 45)])
     }
     
     
