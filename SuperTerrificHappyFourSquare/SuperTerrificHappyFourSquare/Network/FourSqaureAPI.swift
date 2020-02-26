@@ -13,10 +13,12 @@ struct FourSquareAPIClient {
     
     
     
-    static func getVenues(query: String, completion: @escaping (Result<[Venue], AppError>) -> ()){
+    static func getVenuesWithoutCoordinates (query: String, location: String, completion: @escaping (Result<[Venue], AppError>) -> ()){
         
        
-        let endpointURL = "https://api.foursquare.com/v2/venues/search?client_id=\(APIKey.clientID)&client_secret=\(APIKey.clientSecret)&v=20200221&near=Queens&query=\(query)"
+        let endpointURL = "https://api.foursquare.com/v2/venues/search?client_id=\(APIKey.clientID)&client_secret=\(APIKey.clientSecret)&v=20200221&near=\(location)&query=\(query)"
+        
+        // Think about how to guard/remove/replace non-alphabet strings/characters to be placed into endpoint url
         
     
         guard let url = URL(string: endpointURL) else {
@@ -31,6 +33,34 @@ struct FourSquareAPIClient {
         
         NetworkHelper.shared.performDataTask(with: request) { (result) in
             switch result {
+            case .failure(let appError):
+                completion(.failure(.networkClientError(appError)))
+            case .success(let data):
+                do {
+                    let search = try JSONDecoder().decode(VenueData.self, from: data)
+                    completion(.success(search.response.venues))
+                } catch {
+                    completion(.failure(.decodingError(error)))
+                }
+            }
+        }
+        
+        
+    }
+    
+    static func getVenuesWithCoordinates(query: String, longitude: String, latitude: String, completion: @escaping (Result<[Venue], AppError>) -> ()) {
+       
+        let endpointURL = "https://api.foursquare.com/v2/venues/search?client_id=\(APIKey.clientID)&client_secret=\(APIKey.clientSecret)&v=20170210&ll=\(longitude),\(latitude)&query=\(query)"
+        
+        guard let url = URL(string: endpointURL) else {
+            completion(.failure(.badURL(endpointURL)))
+            return
+        }
+        
+        let request = URLRequest(url: url)
+        
+        NetworkHelper.shared.performDataTask(with: request) { (request) in
+            switch request {
             case .failure(let appError):
                 completion(.failure(.networkClientError(appError)))
             case .success(let data):
@@ -71,6 +101,9 @@ struct FourSquareAPIClient {
                 }
             }
         }
+    func getVenueDetails(venueID: String) {
+        let endpointURL = "https://api.foursquare.com/v2/venues/\(venueID)"
+    }
         
         
         
