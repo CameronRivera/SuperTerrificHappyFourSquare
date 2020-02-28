@@ -23,7 +23,13 @@ class SearchView: UIView {
     
     lazy var eventsListButton: UIButton = {
         let listButton = UIButton()
-        listButton.setImage(UIImage(named: "TRIANGLE-FLAME"), for: .normal)
+        listButton.setImage(UIImage(named: "TRIANLE-FLAME"), for: .normal)
+        listButton.layer.borderColor = UIColor(white: 0.5, alpha: 0.3).cgColor
+        listButton.layer.shadowOpacity = 1
+        listButton.layer.shadowRadius = 3.0
+        listButton.layer.cornerRadius = 20
+        listButton.layer.shadowColor = UIColor.systemPurple.cgColor
+        
         return listButton
     }()
     
@@ -31,7 +37,11 @@ class SearchView: UIView {
         let venueSearch = UITextField()
         venueSearch.placeholder = "  search"
         venueSearch.backgroundColor = .systemBackground
-        venueSearch.layer.cornerRadius = 20
+        venueSearch.layer.borderColor = UIColor(white: 0.5, alpha: 0.3).cgColor
+        venueSearch.layer.shadowOpacity = 1
+        venueSearch.layer.shadowRadius = 3.0
+        venueSearch.layer.cornerRadius = 15
+        venueSearch.layer.shadowColor = UIColor.systemGray2.cgColor
         return venueSearch
     }()
     
@@ -39,7 +49,12 @@ class SearchView: UIView {
         let locationSearch = UITextField()
         locationSearch.placeholder = "  New York, NY"
         locationSearch.backgroundColor = .systemBackground
-        locationSearch.layer.cornerRadius = 20
+        locationSearch.layer.borderColor = UIColor(white: 0.5, alpha: 0.3).cgColor
+        locationSearch.layer.shadowOpacity = 1
+        locationSearch.layer.shadowRadius = 3.0
+        locationSearch.layer.cornerRadius = 15
+        locationSearch.layer.shadowColor = UIColor.systemGray2.cgColor
+        
         return locationSearch
     }()
     

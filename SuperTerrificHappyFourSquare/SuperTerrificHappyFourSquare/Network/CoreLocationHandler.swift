@@ -9,9 +9,14 @@
 import Foundation
 import CoreLocation
 
+protocol CoreLocationHandlerDelegate: AnyObject{
+    func locationUpdated(_ coreLocationHandler: CoreLocationHandler, _ locations: [CLLocation])
+}
+
 class CoreLocationHandler: NSObject{
     
     public var locationManager: CLLocationManager
+    public weak var delegate: CoreLocationHandlerDelegate?
     
     override init(){
         locationManager = CLLocationManager()
@@ -76,7 +81,10 @@ class CoreLocationHandler: NSObject{
 
 extension CoreLocationHandler: CLLocationManagerDelegate{
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        
+        if let newLocation = locationManager.location{
+            print(newLocation)
+          delegate?.locationUpdated(self, locations)
+        }
     }
     
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
@@ -84,7 +92,22 @@ extension CoreLocationHandler: CLLocationManagerDelegate{
     }
     
     func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
-    }
+           switch status {
+           case .authorizedAlways:
+               print("authorizedAlways")
+           case .authorizedWhenInUse:
+               print("authorizedWhenInUse")
+               locationManager.requestLocation()
+           case .denied:
+               print("denied")
+           case .notDetermined:
+               print("notDetermined")
+           case .restricted:
+               print("restricted")
+           default:
+               break
+           }
+       }
     
     func locationManager(_ manager: CLLocationManager, didEnterRegion region: CLRegion) {
         
@@ -93,4 +116,6 @@ extension CoreLocationHandler: CLLocationManagerDelegate{
     func locationManager(_ manager: CLLocationManager, didExitRegion region: CLRegion) {
         
     }
+    
+    
 }

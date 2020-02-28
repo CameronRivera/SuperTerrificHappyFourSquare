@@ -11,6 +11,7 @@ import UIKit
 import MapKit
 import CoreLocation
 import DataPersistence
+import ImageKit
 
 class SearchController: UIViewController {
     
@@ -18,14 +19,32 @@ class SearchController: UIViewController {
     
     private var searchView = SearchView()
     
+    var mapView = MKMapView()
+    
     private var location = [Location]()
     
-    //private var mapView = MKMapView()
+//    private var searchQuery = "" {
+//        didSet{
+//            DispatchQueue.main.async {
+//                self.getVenueWOCoordinate(query: "", location: "")
+//                self.loadMap()
+//            }
+//        }
+//    }
+//
+//    private var locationQuery = ""  {
+//        didSet{
+//            DispatchQueue.main.async {
+//                self.getVenueWOCoordinate(query: "", location: "")
+//                self.loadMap()
+//            }
+//        }
+//    }
     
     private var venus = [Venue](){
         didSet{
             DispatchQueue.main.async {
-                
+                self.loadMap()
             }
         }
     }
@@ -33,18 +52,23 @@ class SearchController: UIViewController {
     private var venuePhoto = [PhotoItems](){
         didSet{
             DispatchQueue.main.async {
-                
+                self.loadPhoto(venueID: "")
             }
         }
     }
+    
+  
     
     private let locationSession = CoreLocationHandler()
     
     var userTrackingButton: MKUserTrackingButton!
     
+    var defaultLocation = ""
+    
     var annotations = [MKPointAnnotation]()
     
     let searchRadius: CLLocationDistance = 100.0
+    
     
     private var isShowingNewAnnotations = false
     
@@ -58,15 +82,19 @@ class SearchController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         searchView.backgroundColor = .systemBackground
-        //loadMap()
         setUp()
         userTrackingButton = MKUserTrackingButton(frame: CGRect(x: 20, y: 20, width: 40, height: 40))
         userTrackingButton.mapView = searchView.mapView
         searchView.mapView.addSubview(userTrackingButton)
-        
-        loadData(searchQuery: "pizza")
-        
+       // loadMap()
+//        getVenueWOCoordinate(query: "", location: "")
+        mapView.delegate = self
+        searchView.venueSearchBar.delegate = self
+        searchView.locationSearch.delegate = self
+        locationSession.delegate = self
     }
+    
+    
     
     private func setUp(){
         searchView.venuesCollectionView.dataSource = self
@@ -74,14 +102,22 @@ class SearchController: UIViewController {
         searchView.venuesCollectionView.register(CustomCollectionCell.self, forCellWithReuseIdentifier: "customCollectCell")
     }
     
-    private func loadData(searchQuery: String){
-        FourSquareAPIClient.getVenues(query: searchQuery) { (result) in
+    
+    
+    private func getVenueWOCoordinate(query: String, location: String){
+        
+        let searchQuery = query.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed) ?? "McDonalds"
+        
+        let searchLocation = location.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed) ?? "Queens"
+        
+        FourSquareAPIClient.getVenuesWithoutCoordinates(query: query, location: location) { (result) in
+
             switch result {
             case .failure(let error):
-                print("\(error)")
+                print("This is an error I wrote in the API call \(error) CHECK. CHECK")
             case .success(let venue):
                 self.venus = venue
-                self.loadPhoto(venueID: venue.first?.id ?? "no id avalable" )
+                print(self.venus)
             }
         }
     }
@@ -101,19 +137,25 @@ class SearchController: UIViewController {
     
     
     @objc func listButtonPressed(){
-        let cv = CategoryController()
+        let cv = DetailViewController()
         self.modalPresentationStyle = .fullScreen
         present(cv, animated: true)
     }
     
-    
+    private func loadMap() {
+        let annotations = makeAnnotations()
+        // mapView.addAnnotations(annotations)
+        searchView.mapView.addAnnotations(annotations)
+        searchView.mapView.showAnnotations(annotations, animated: true)
+    }
     
     private func makeAnnotations() -> [MKPointAnnotation] {
         var annotations = [MKPointAnnotation]()
         for location in venus {
             let annotation = MKPointAnnotation()
             annotation.title = location.name
-            //annotation.coordinate = location(location.l)
+            annotation.coordinate.latitude = location.location.lat
+            annotation.coordinate.longitude = location.location.lng
             annotations.append(annotation)
         }
         isShowingNewAnnotations = true
@@ -121,54 +163,55 @@ class SearchController: UIViewController {
         return annotations
     }
     
-    private func convertPlaceNameToCoordinate(_ placeName: String, completetion: @escaping (Result<CLLocationCoordinate2D, Error>) -> ()) {
-        CLGeocoder().geocodeAddressString(placeName) { (placemarks, error) in
-            if let error = error {
-                completetion(.failure(error))
+    private func convertPlaceNameToCoordinate(_ placeName: String) {
+        locationSession.convertPlaceNameToCoordinate(placeName) { (result) in
+            switch result {
+            case .failure(let error):
+                print("geocode error: \(error)")
+            case .success(let coordinate):
+                let region = MKCoordinateRegion(center: coordinate, latitudinalMeters: 800, longitudinalMeters: 800)
+                self.searchView.mapView.setRegion(region, animated: true)
             }
-            if let firstPlacemark = placemarks?.first,
-                let location = firstPlacemark.location {
-                print("placeName is \(location.coordinate)")
-                completetion(.success(location.coordinate))
-            }
         }
-        
-        //        locationSession.convertPlaceNameToCoordinate(addressString: placeName) { (result) in
-        //            switch result {
-        //            case .failure(let error):
-        //                print("geocode error: \(error)")
-        //            case .success(let coordinate):
-        //                let region = MKCoordinateRegion(center: coordinate, latitudinalMeters: 1200, longitudinalMeters: 1200)
-        //                self.mapView.setRegion(region, animated: true)
-        //            }
-        //        }
-        //    }
-        
-        
-        func loadMap() {
-            let annotations = makeAnnotations()
-            searchView.mapView.addAnnotations(annotations)
-            searchView.mapView.showAnnotations(annotations, animated: true)
-        }
-        
-        func loadNearbyVenue(){
-            
-        }
-        
-        
-        //    private func convertPlaceNameToCoordinate(_ placeName: String) {
-        //        locationSession.convertCoordinateToPlacemark(<#T##coordinate: CLLocationCoordinate2D##CLLocationCoordinate2D#>) { (result) in
-        //            switch result {
-        //            case .failure(let error):
-        //                print("geocode error: \(error)")
-        //            case .success(let coordinate):
-        //                let region = MKCoordinateRegion(center: coordinate, latitudinalMeters: 1200, longitudinalMeters: 1200)
-        //                self.mapView.setRegion(region, animated: true)
-        //            }
-        //        }
-        //    }
-        
     }
+    
+    func loadUserLocation(_ position: CLLocation){
+        locationSession.convertCoordinateToPlacemark(position.coordinate) { (result) in
+            switch result {
+            case .failure(let error):
+                print("error finding user location: \(error)")
+            case .success(let location):
+                self.defaultLocation = location.name ?? ""
+                print(location.name)
+            }
+        }
+    }
+    
+    
+    func textFieldSelector(_ textField: UITextField) {
+        
+        if textField == searchView.locationSearch {
+            getVenueWOCoordinate(query: textField.text?.description ?? "Pizza", location: textField.text ?? "laurelton")
+           // print("location search results")
+            print("LOCATION JOHNSON ROD \(String(describing: textField.text))")
+            resignFirstResponder()
+        }
+        
+        if textField == searchView.venueSearchBar {
+            getVenueWOCoordinate(query: textField.text?.description ?? "pizza", location: textField.text ?? "laurelton" )
+            print("VENU search results")
+           
+            
+            resignFirstResponder()
+        }
+        
+        if textField == searchView.locationSearch {
+            if textField.text == nil {
+                textField.text = defaultLocation
+            }
+        }
+    }
+    
 }
 //---------------------------------------------------------------
 //MARK: EXTENSIONS
@@ -177,16 +220,9 @@ extension SearchController: MKMapViewDelegate {
     
     func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
         
-        guard let annotation = view.annotation else {return}
-        
-        let location = ""
-        
-        let searchQuery = ""
-        
-        
-        
-        
-        //guard let detailVC =
+        let detailVC = DetailViewController()
+        guard view.annotation != nil else {return}
+        navigationController?.pushViewController(detailVC, animated: true)
     }
     
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
@@ -205,29 +241,38 @@ extension SearchController: MKMapViewDelegate {
         }
         return annotationView
     }
+    
+    func mapViewDidFinishLoadingMap(_ mapView: MKMapView) {
+        if isShowingNewAnnotations{
+            mapView.showAnnotations(annotations, animated: false)
+        }
+        isShowingNewAnnotations = false
+    }
 }
 
-//--------------------------------------------------------------------------------------------------------------------------------
-// MARK: EXTENSIONS
+//---------------------------------------------------------------
+//MARK: EXTENSIONS
 
-//extension SearchController: UITextFieldDelegate {
-//    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-//        textField.resignFirstResponder()
-//
-//        guard let searchText = textField.text,!searchText.isEmpty else {
-//            return true
-//        }
-//        convertPlaceNameToCoordinate(searchText) { (result) in
-//            switch result {
-//            case .failure(let error):
-//                print("\(error)")
-//            case .success(let queryResults):
-//                let query = textField.text.
-//            }
-//        }
-//        return true
-//    }
-//}
+extension SearchController: UITextFieldDelegate {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        guard let searchText = textField.text,!searchText.isEmpty else {
+            return true
+        }
+ 
+        // MARK: ****** FIX THIS ********
+        textFieldSelector(textField)
+        convertPlaceNameToCoordinate(searchText)
+        
+        
+        return true
+    }
+    
+}
+
+
+//---------------------------------------------------------------
+//MARK: EXTENSIONS
 
 extension SearchController: UICollectionViewDataSource{
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -243,8 +288,10 @@ extension SearchController: UICollectionViewDataSource{
         
         return cell
     }
-    
 }
+
+
+
 
 extension SearchController: UICollectionViewDelegateFlowLayout{
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
@@ -267,4 +314,14 @@ extension SearchController: UICollectionViewDelegateFlowLayout{
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
         return UIEdgeInsets(top: 10, left: 25, bottom: 10, right: 25)
     }
+}
+
+extension SearchController: CoreLocationHandlerDelegate {
+    func locationUpdated(_ coreLocationHandler: CoreLocationHandler, _ locations: [CLLocation]) {
+        if let newLoc = locations.first{
+            loadUserLocation(newLoc)
+        }
+    }
+    
+    
 }

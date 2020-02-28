@@ -42,7 +42,7 @@ struct Location: Codable {
     let postalCode: String?
     let cc: String?
     let city: String?
-    let state: String
+    let state: String?
     let country: String
     let formattedAddress: [String]
     let neighborhood: String?
