@@ -72,7 +72,7 @@ class SearchController: UIViewController {
         searchView.mapView.addSubview(userTrackingButton)
         //loadMap()
         //        getVenueWOCoordinate(query: "", location: "")
-        mapView.delegate = self
+        searchView.mapView.delegate = self
         searchView.venueSearchBar.delegate = self
         searchView.locationSearch.delegate = self
         locationSession.delegate = self
@@ -108,19 +108,6 @@ class SearchController: UIViewController {
             }
         }
     }
-    
-//    private func loadPhoto(venueID: String){
-//        FourSquareAPIClient.getVenuePhotos(venueID: venueID) { (result) in
-//            switch result {
-//            case .failure(let error):
-//                print("\(error)")
-//            case .success(let photo):
-//                self.venuePhoto = photo
-//                // www.(prefix)/(width)x(height)/(suffix)
-//
-//            }
-//        }
-//    }
     
     
     
@@ -205,27 +192,27 @@ class SearchController: UIViewController {
     
     
     
-    func textFieldSelector(_ textField: UITextField) {
-        
-        if textField == searchView.locationSearch {
-            getVenueWOCoordinate(query: textField.text?.description ?? "Pizza", location: textField.text ?? "laurelton")
-            // print("location search results")
-            print("LOCATION JOHNSON ROD \(String(describing: textField.text))")
-            resignFirstResponder()
-        }
-        
-        if textField == searchView.venueSearchBar {
-            getVenueWOCoordinate(query: textField.text?.description ?? "pizza", location: textField.text ?? "laurelton" )
-            print("VENU search results")
-            resignFirstResponder()
-        }
-        
-        if textField == searchView.locationSearch {
-            if textField.text == nil {
-                textField.text = defaultLocation
-            }
-        }
-    }
+//    func textFieldSelector(_ textField: UITextField) {
+//
+//        if textField == searchView.locationSearch {
+//            getVenueWOCoordinate(query: textField.text?.description ?? "Pizza", location: textField.text ?? "laurelton")
+//            // print("location search results")
+//            print("LOCATION JOHNSON ROD \(String(describing: textField.text))")
+//            resignFirstResponder()
+//        }
+//
+//        if textField == searchView.venueSearchBar {
+//            getVenueWOCoordinate(query: textField.text?.description ?? "pizza", location: textField.text ?? "laurelton" )
+//            print("VENU search results")
+//            resignFirstResponder()
+//        }
+//
+//        if textField == searchView.locationSearch {
+//            if textField.text == nil {
+//                textField.text = defaultLocation
+//            }
+//        }
+//    }
 }
 
 
@@ -251,17 +238,23 @@ extension SearchController: MKMapViewDelegate {
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
         guard annotation is MKPointAnnotation else {return nil}
         
+//        let identifier = "annotationView"
+//        var annotationView = mapView.dequeueReusableAnnotationView(withIdentifier: identifier) as? MKMarkerAnnotationView
+//
+//
+//        if annotationView == nil {
+//            annotationView = MKMarkerAnnotationView(annotation: annotation, reuseIdentifier: identifier)
+//            annotationView?.canShowCallout = true
+//            annotationView?.glyphImage = UIImage(named:"alexHead")
+//        }else{
+//            annotationView?.annotation = annotation
+//        }
+//        return annotationView
         let identifier = "annotationView"
-        var annotationView = mapView.dequeueReusableAnnotationView(withIdentifier: identifier) as? MKMarkerAnnotationView
         
-        
-        if annotationView == nil {
-            annotationView = MKMarkerAnnotationView(annotation: annotation, reuseIdentifier: identifier)
-            annotationView?.canShowCallout = true
-            annotationView?.glyphImage = UIImage(named: "alexHead")
-        }else{
-            annotationView?.annotation = annotation
-        }
+        let annotationView = MKAnnotationView(annotation: annotation, reuseIdentifier: identifier)
+        annotationView.image = UIImage(named: "alexHead")
+        annotationView.canShowCallout = true
         return annotationView
     }
     
@@ -315,21 +308,21 @@ extension SearchController: UICollectionViewDataSource{
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "customCollectCell", for: indexPath) as? CustomCollectionCell else {
             fatalError("could not cast to cell")
         }
+        cell.backgroundColor = .systemGroupedBackground
         let venue = venus[indexPath.row]
         cell.configureMKViewCollectionCell(venue)
         
         return cell
     }
+    
+    
 }
-
-
 
 
 extension SearchController: UICollectionViewDelegateFlowLayout{
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let venu = venus[indexPath.row]
         let detailVC = DetailViewController()
-        
         navigationController?.pushViewController(detailVC, animated: true)
         
     }
