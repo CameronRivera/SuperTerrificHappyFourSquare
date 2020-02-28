@@ -60,15 +60,12 @@ class SearchView: UIView {
     
     
     
-    lazy var venuesCollectionView: UICollectionView = {
+    lazy var venueCollectionView: UICollectionView = {
         
         let cellLayout = UICollectionViewFlowLayout()
         cellLayout.scrollDirection = .horizontal
-        cellLayout.sectionInset = UIEdgeInsets.init(top: 0, left: 1, bottom: 0, right: 1)
-        cellLayout.itemSize = CGSize.init(width: 100, height: 100)
         let collectionView = UICollectionView(frame: CGRect.zero, collectionViewLayout: cellLayout)
-        collectionView.backgroundColor = .systemPink
-        collectionView.layer.cornerRadius = 5.0
+        collectionView.backgroundColor = .systemGroupedBackground
         return collectionView
     }()
     
@@ -140,13 +137,15 @@ class SearchView: UIView {
             locationSearch.heightAnchor.constraint(equalToConstant: 45)])
     }
     
-    
     private func collectionViewConstraints() {
-        addSubview(venuesCollectionView)
-        venuesCollectionView.translatesAutoresizingMaskIntoConstraints = false
-        
+        mapView.addSubview(venueCollectionView)
+        venueCollectionView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-            venuesCollectionView.topAnchor.constraint(equalTo: mapView.bottomAnchor, constant: 1),             venuesCollectionView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 1), venuesCollectionView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: 1), venuesCollectionView.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor)
+            venueCollectionView.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor, constant: 40),
+            venueCollectionView.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor, constant: 100),
+            venueCollectionView.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor, constant: -100),
+            venueCollectionView.heightAnchor.constraint(equalTo: heightAnchor, multiplier: 0.13),
+            //venueCollectionView.widthAnchor.constraint(equalTo: widthAnchor)
         ])
     }
 }
