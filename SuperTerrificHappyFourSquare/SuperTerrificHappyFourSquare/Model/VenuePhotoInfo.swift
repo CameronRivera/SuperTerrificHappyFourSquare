@@ -14,10 +14,10 @@ struct VenuePhotoInfo: Codable {
 struct Response: Codable {
   let photos: Photos
 }
-struct Photos: Codable {
-  let items: [PhotoItems]
+struct Photos: Codable & Equatable {
+  let items: [PhotoItems]?
 }
-struct PhotoItems: Codable {
+struct PhotoItems: Codable & Equatable {
   let prefix: String
   let suffix: String
   let width: Int
