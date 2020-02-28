@@ -95,7 +95,7 @@ struct FourSquareAPIClient {
                 do {
                     // let search = try JSONDecoder().decode(VenueData.self, from: data)
                     let photoInfo = try JSONDecoder().decode(VenuePhotoInfo.self, from: data)
-                    completion(.success(photoInfo.response.photos.items))
+                    completion(.success(photoInfo.response.photos.items ?? []))
                 } catch {
                     completion(.failure(.decodingError(error)))
                 }
