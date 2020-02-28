@@ -12,7 +12,7 @@ import DataPersistence
 class FourSquareTabBarController: UITabBarController {
     
     //FIXME:
-    //private var dataPersistence = DataPersistence<NAME>(filename: "NAME.plist")
+    //private var dataPersistence = DataPersistence<Venue>(filename: "Venue.plist")
     
     //VC1:
     private lazy var searchController: SearchController = {
@@ -25,8 +25,8 @@ class FourSquareTabBarController: UITabBarController {
     }()
     
     //VC 2:
-    private lazy var categoryController: CategoryController = {
-        let viewController = CategoryController()
+    private lazy var allCategoriesController: ShowAllCollectionsController = {
+        let viewController = ShowAllCollectionsController()
         viewController.tabBarItem = UITabBarItem(title: "Collections", image: UIImage(systemName: "rectangle.grid.1x2"), tag: 1)
         //FIXME: add datapersistence and/or delegate?
         //viewController.dataPersistence = dataPersistence
@@ -36,7 +36,7 @@ class FourSquareTabBarController: UITabBarController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        viewControllers = [UINavigationController(rootViewController: searchController), UINavigationController(rootViewController: categoryController)]
+        viewControllers = [UINavigationController(rootViewController: searchController), UINavigationController(rootViewController: allCategoriesController)]
     }
     
 }

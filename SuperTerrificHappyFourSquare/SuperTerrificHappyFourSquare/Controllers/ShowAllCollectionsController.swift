@@ -24,12 +24,12 @@ class ShowAllCollectionsController: UIViewController {
     }
     
     var newCategories = [String]() {
-         didSet {
-             DispatchQueue.main.async {
+        didSet {
+            DispatchQueue.main.async {
                 self.showAllCollectionView.collectionView.reloadData()
             }
-         }
-     }
+        }
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -43,6 +43,9 @@ class ShowAllCollectionsController: UIViewController {
         navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "plus"), style: .plain, target: self, action: #selector(addBarButtonItemPressed(_:)))
         
         showAllCollectionView.collectionView.register(CustomCollectionCell.self, forCellWithReuseIdentifier: "customCollectionCell")
+        
+        //Do I need it here? PROBABLY YES, unless I can call it somewhere else
+        //showAllCollectionView.collectionView.de
     }
     
     //INITIALIZERS FOR DATA PERSISTANCE:
@@ -65,6 +68,7 @@ class ShowAllCollectionsController: UIViewController {
         
         let alertController = UIAlertController(title: "Enter Name of New Collection", message: nil, preferredStyle: .alert)
         alertController.addTextField()
+        alertController.textFields![0].autocapitalizationType = .words
         
         let createAction = UIAlertAction(title: "Create", style: .default) {
             [unowned alertController] _ in
@@ -83,9 +87,37 @@ class ShowAllCollectionsController: UIViewController {
         present(alertController, animated: true)
     }
     
-    private func createNewCategory() {
-      
-    }
+    //    @objc func addBarButtonItemPressed(_ sender: UIBarButtonItem) {
+    //           // HERE I AM TRYING TO WRITE A CODE THAT WILL PRESENT ACTION SHEET + WITH OPTION TO DELETE CREATED CUSTOM COLLECTION
+    //
+    //           //STEPS:
+    //           // 1. Array of Strings with Custom Categories
+    //           // 2. Create/load cell and for label give name of new category
+    //
+    //           let alertController = UIAlertController(title: "Enter Name of New Collection", message: nil, preferredStyle: .alert)
+    //           alertController.addTextField()
+    //           alertController.textFields![0].autocapitalizationType = .words
+    //
+    //           let createAction = UIAlertAction(title: "Create", style: .default) {
+    //               [unowned alertController] _ in
+    //               self.nameOfNewCategory = alertController.textFields![0].text?.capitalized ?? "No Name"
+    //               self.newCategories.append(self.nameOfNewCategory)
+    //               print("Created folder with name: \(self.nameOfNewCategory)")
+    //               print("There are following categories: \(self.newCategories)")
+    //           }
+    //           let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)
+    //
+    //           alertController.addAction(createAction)
+    //
+    //           //dismissed
+    //           alertController.addAction(cancelAction)
+    //
+    //           present(alertController, animated: true)
+    //       }
+    
+    //    private func createNewCategory() {
+    //
+    //    }
 }
 
 
@@ -101,9 +133,10 @@ extension ShowAllCollectionsController: UICollectionViewDataSource {
         cell.configureCategoryCollectionCell(savedCategory)
         //FIXME: remove cell color
         cell.backgroundColor = .systemGroupedBackground
+        cell.layer.masksToBounds = true
+        cell.layer.cornerRadius = 30
         
-        
-        //segue to CategoryController
+        cell.delegate = self
         
         return cell
     }
@@ -122,12 +155,57 @@ extension ShowAllCollectionsController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
         return UIEdgeInsets(top: 10, left: 15, bottom: 10, right: 15)
     }
-  
+    
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let newCategory = newCategories[indexPath.row]
+        // let newCategory = newCategories[indexPath.row]
         let categoryVC = CategoryController()
-       //let categoryVC = CategoryController(dataPersistence, article: article)
+        //let categoryVC = CategoryController(dataPersistence, article: article)
         navigationController?.pushViewController(categoryVC, animated: true)
     }
 }
+
+
+extension ShowAllCollectionsController: CustomCollectionCellDelegate {
+    func addButtonPressed(_ customCollectionCell: CustomCollectionCell) {
+        print("addButtonWasPressed")
+    }
+    
+    func deleteCollectionButtonPressed(_ customCollectionCell: CustomCollectionCell) {
+        print("didSelectDeleteCollectionPressed")
+        
+        let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)
+        let deleteAction = UIAlertAction(title: "Delete This Collection", style: .destructive) {
+            UIAlertAction in
+            //self.deleteCollection(card)
+            //self.newCategories.append(self.nameOfNewCategory)
+            self.deleteCollection(self.newCategories)
+            print("Deleted collection with name: \(self.nameOfNewCategory)")
+        }
+        
+        alertController.addAction(cancelAction)
+        
+        alertController.addAction(deleteAction)
+        
+        present(alertController, animated: true)
+    }
+    
+    private func deleteCollection(_ collectionCategory: [String]) {
+//        guard let index = savedCards.firstIndex(of: card) else {
+//            return
+//        }
+//        do {
+//            try dataPersistence.deleteItem(at: index)
+//        } catch {
+//            print("error deleting card: \(error)")
+//        }
+        newCategories.removeAll()
+    }
+}
+
+
+
+
+
+
 

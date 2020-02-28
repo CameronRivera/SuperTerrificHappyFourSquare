@@ -24,7 +24,7 @@ class CategoryController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         //FIXME: change background color back to .systemGroupedBacground
-       view.backgroundColor = .systemGreen
+       view.backgroundColor = .systemGroupedBackground
         navigationItem.title = "All Items in My Category"
         
         categoryView.tableView.dataSource = self
@@ -65,5 +65,12 @@ extension CategoryController: UITableViewDataSource {
 extension CategoryController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 250
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let detailVC = DetailViewController()
+        //let categoryVC = CategoryController(dataPersistence, article: article)
+        //navigationController?.pushViewController(detailVC, animated: true)
+        navigationController?.present(detailVC, animated: true)
     }
 }

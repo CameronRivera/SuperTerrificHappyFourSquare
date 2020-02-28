@@ -10,6 +10,7 @@ import UIKit
 
 protocol CustomCollectionCellDelegate: AnyObject{
     func addButtonPressed(_ customCollectionCell: CustomCollectionCell)
+    func deleteCollectionButtonPressed(_ customCollectionCell: CustomCollectionCell)
 }
 
 class CustomCollectionCell: UICollectionViewCell {
@@ -24,6 +25,10 @@ class CustomCollectionCell: UICollectionViewCell {
         let label = UILabel()
         label.alpha = 0.0
         label.textAlignment = .center
+        label.backgroundColor = .white
+        label.font = .boldSystemFont(ofSize: 20)
+        label.clipsToBounds = true
+        label.layer.cornerRadius = 12
         return label
     }()
     
@@ -33,6 +38,16 @@ class CustomCollectionCell: UICollectionViewCell {
         button.setTitle("", for: .normal)
         button.setBackgroundImage(UIImage(systemName: "plus"), for: .normal)
         button.addTarget(self, action: #selector(addButtonPressed), for: .touchUpInside)
+        return button
+    }()
+    
+    public lazy var deleteCollectionButton: UIButton = {
+        let button = UIButton()
+        button.setBackgroundImage(UIImage(systemName: "ellipses.bubble"), for: .normal)
+        // I think it is not needed:
+        button.setTitle("", for: .normal)
+        button.tintColor = .black
+       button.addTarget(self, action: #selector(deleteCollectionButtonPressed), for: .touchUpInside)
         return button
     }()
     
@@ -60,6 +75,7 @@ class CustomCollectionCell: UICollectionViewCell {
         setUpCategoryLabelConstraints()
         setUpTintedViewConstraints()
         setUpAddButtonConstraints()
+        setupDeleteCollectionButtonConstraints()
     }
     
     private func setUpImageViewConstraints(){
@@ -71,8 +87,16 @@ class CustomCollectionCell: UICollectionViewCell {
     private func setUpCategoryLabelConstraints(){
         addSubview(categoryLabel)
         categoryLabel.translatesAutoresizingMaskIntoConstraints = false
-        NSLayoutConstraint.activate([categoryLabel.centerXAnchor.constraint(equalTo: centerXAnchor), categoryLabel.centerYAnchor.constraint(equalTo: centerYAnchor),
-            categoryLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -8), categoryLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 8)])
+        NSLayoutConstraint.activate([categoryLabel.centerXAnchor.constraint(equalTo: centerXAnchor), categoryLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -15), categoryLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 15),
+            categoryLabel.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -8)])
+        //CHANGED THE CONSTRAINTS:
+        // removed: categoryLabel.centerYAnchor.constraint(equalTo: centerYAnchor),
+    }
+    
+    private func setupDeleteCollectionButtonConstraints() {
+        addSubview(deleteCollectionButton)
+        deleteCollectionButton.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([deleteCollectionButton.topAnchor.constraint(equalTo: topAnchor, constant: 8), deleteCollectionButton.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -8)])
     }
     
     private func setUpTintedViewConstraints(){
@@ -90,6 +114,12 @@ class CustomCollectionCell: UICollectionViewCell {
     @objc
     private func addButtonPressed(_ sender: UIButton){
         delegate?.addButtonPressed(self)
+    }
+    
+    //Here goes code to delete the Collection view
+    @objc
+    private func deleteCollectionButtonPressed(_ sender: UIButton){
+        delegate?.deleteCollectionButtonPressed(self)
     }
     
     // TODO: Add real data into these configure cell methods
@@ -120,7 +150,7 @@ class CustomCollectionCell: UICollectionViewCell {
             self.categoryLabel.alpha = 1.0
             self.categoryLabel.text = model
             //FIXME:
-            self.imageView.image = UIImage(systemName: "folder")
+            self.imageView.image = UIImage(named: "LocationIcon")
         }
     }
     // This function is potentially the same as the one above.
