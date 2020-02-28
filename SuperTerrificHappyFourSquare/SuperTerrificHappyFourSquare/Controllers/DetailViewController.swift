@@ -8,6 +8,7 @@
 
 import UIKit
 import MapKit
+import DataPersistence
 
 class DetailViewController: UIViewController {
 
@@ -17,12 +18,38 @@ class DetailViewController: UIViewController {
     // Model Data Variable, for the annotation
    // private var venueInformation: VenueInfo
     
+    
+    private var dataPersistence: DataPersistence<Collection>
+    //FIXME: We need to add persistance from detail VC to ShowAllCollectionsVC
+    //detailVC.dataPersistance = dataPersistance
+    // DP Step 8. Setting up data persistance
+//     @objc
+//     func saveArticleButtonPressed(_ sender: UIBarButtonItem){
+//         //print("saved article button pressed")
+//         guard let article = article else { return }
+//         do {
+//             //SAVING TO DOCUMENT DIRECTORY
+//             try dataPersistance.createItem(article)
+//         } catch {
+//             print("error saving article: \(error)")
+//         }
+//     }
+    
     // Dummy data for the collection view.
  //   private let dummyArray: [String] = ["Clip", "Clop"]
     
     override func loadView(){
         view = detailView
     }
+    
+        init(_ dataPersistence: DataPersistence<Collection>){
+            self.dataPersistence = dataPersistence
+            super.init(nibName: nil, bundle: nil)
+        }
+    
+        required init?(coder: NSCoder) {
+            fatalError("init(coder:) has not been implemented")
+        }
     
     // Requires a CLLocationCoordinate2D, and a DetailedVenueInfo Model.
 //    init(_ venue: VenueInfo){

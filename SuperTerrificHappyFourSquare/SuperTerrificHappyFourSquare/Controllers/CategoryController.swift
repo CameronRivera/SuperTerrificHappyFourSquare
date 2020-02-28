@@ -13,7 +13,7 @@ class CategoryController: UIViewController {
     
     let categoryView = CategoryView()
        
-       // private var dataPersistence: DataPersistence<Name>
+       private var dataPersistence: DataPersistence<Collection>
        
        //var addedVenue: Venue
        
@@ -33,15 +33,14 @@ class CategoryController: UIViewController {
         categoryView.tableView.register(CustomTableViewCell.self, forCellReuseIdentifier: "customTableViewCell")
     }
     
-    //    init(_ dataPersistence: DataPersistence<Name>, category: Category){
-    //        self.dataPersistence = dataPersistence
-    //        self.addedCategory: Category = category
-    //        super.init(nibName: nil, bundle: nil)
-    //    }
-    //
-    //    required init?(coder: NSCoder) {
-    //        fatalError("init(coder:) has not been implemented")
-    //    }
+   init(_ dataPersistence: DataPersistence<Collection>){
+             self.dataPersistence = dataPersistence
+             super.init(nibName: nil, bundle: nil)
+         }
+     
+         required init?(coder: NSCoder) {
+             fatalError("init(coder:) has not been implemented")
+         }
 }
 
 extension CategoryController: UITableViewDataSource {
@@ -68,7 +67,7 @@ extension CategoryController: UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let detailVC = DetailViewController()
+        let detailVC = DetailViewController(dataPersistence)
         //let categoryVC = CategoryController(dataPersistence, article: article)
         //navigationController?.pushViewController(detailVC, animated: true)
         navigationController?.present(detailVC, animated: true)
