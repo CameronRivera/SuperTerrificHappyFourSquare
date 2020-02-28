@@ -45,6 +45,7 @@ class DetailViewController: UIViewController {
 //        detailView.collectionView.dataSource = self
 //        detailView.collectionView.delegate = self
 //        detailView.collectionView.register(CustomCollectionCell.self, forCellWithReuseIdentifier: "customCell")
+        detailView.scrollView.contentSize = detailView.contentView.frame.size
         detailView.mapView.delegate = self
         // Get some location here, or pass in some location
         makeAnnotations()

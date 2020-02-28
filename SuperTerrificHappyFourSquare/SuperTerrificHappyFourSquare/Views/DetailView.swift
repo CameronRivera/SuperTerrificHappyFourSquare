@@ -59,6 +59,18 @@ class DetailView: UIView {
         return mv
     }()
     
+    public lazy var scrollView: UIScrollView = {
+        let scrollView = UIScrollView()
+        scrollView.backgroundColor = UIColor.brown
+        return scrollView
+    }()
+    
+    public lazy var contentView: UIView = {
+        let contentView = UIView()
+        contentView.backgroundColor = .systemBlue
+        return contentView
+    }()
+    
     
     override init(frame: CGRect) {
         super.init(frame: UIScreen.main.bounds)
@@ -73,8 +85,10 @@ class DetailView: UIView {
     private func commonInit(){
         // setUpCollectionViewConstraints()
         setUpImageViewConstraints()
-        setUpStackViewConstraints()
         setUpMapViewConstraints()
+        setUpScrollViewConstraints()
+        setUpContentViewConstraints()
+        setUpStackViewConstraints()
     }
     
     private func setUpCollectionViewConstraints(){
@@ -86,17 +100,17 @@ class DetailView: UIView {
     private func setUpImageViewConstraints(){
         addSubview(imageView)
         imageView.translatesAutoresizingMaskIntoConstraints = false
-        NSLayoutConstraint.activate([imageView.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor, constant: 20), imageView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 8), imageView.heightAnchor.constraint(equalTo: heightAnchor, multiplier: 0.18), imageView.widthAnchor.constraint(equalTo: widthAnchor, multiplier: 0.4)])
+        NSLayoutConstraint.activate([imageView.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor, constant: 20), imageView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 20), imageView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -20), imageView.heightAnchor.constraint(equalTo: heightAnchor, multiplier: 0.29)])
     }
     
     private func setUpStackViewConstraints(){
-        addSubview(stackView)
+        contentView.addSubview(stackView)
         stackView.addArrangedSubview(venueNameLabel)
         stackView.addArrangedSubview(hoursOfOperationLabel)
         stackView.addArrangedSubview(venueAddressLabel)
         stackView.translatesAutoresizingMaskIntoConstraints = false
         
-        NSLayoutConstraint.activate([stackView.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor, constant: 20), stackView.leadingAnchor.constraint(equalTo: imageView.trailingAnchor, constant: 20), stackView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -8), stackView.heightAnchor.constraint(equalTo: heightAnchor, multiplier: 0.17)])
+        NSLayoutConstraint.activate([stackView.topAnchor.constraint(equalTo: scrollView.topAnchor, constant: 20), stackView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor, constant: 8), stackView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor, constant: -8), scrollView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)])
     }
     
     private func setUpMapViewConstraints(){
@@ -104,5 +118,22 @@ class DetailView: UIView {
         mapView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([mapView.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor, constant: -8), mapView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 8), mapView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -8), mapView.heightAnchor.constraint(equalTo: heightAnchor, multiplier: 0.3)])
     }
+    
+    private func setUpScrollViewConstraints(){
+        addSubview(scrollView)
+        scrollView.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([scrollView.topAnchor.constraint(equalTo: imageView.bottomAnchor, constant: 8), scrollView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 20), scrollView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -20), scrollView.bottomAnchor.constraint(equalTo: mapView.topAnchor, constant: -8)])
+    }
+    
+    private func setUpContentViewConstraints(){
+        scrollView.addSubview(contentView)
+        contentView.translatesAutoresizingMaskIntoConstraints = false
+
+        NSLayoutConstraint.activate([ contentView.heightAnchor.constraint(equalTo: heightAnchor), contentView.widthAnchor.constraint(equalTo: widthAnchor)])
+    }
 
 }
+
+/*
+ scrollView.topAnchor.constraint(equalTo: scrollView.topAnchor), contentView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor), contentView.trailingAnchor.constraint(equalTo: trailingAnchor), contentView.bottomAnchor.constraint(equalTo: bottomAnchor),
+ */
