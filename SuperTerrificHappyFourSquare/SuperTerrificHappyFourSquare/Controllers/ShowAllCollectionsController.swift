@@ -13,7 +13,38 @@ class ShowAllCollectionsController: UIViewController {
     
     let showAllCollectionView = ShowAllCollections()
     
-    //private var dataPersistence: DataPersistence<Name>
+    private var dataPersistence: DataPersistence<Collection>
+    
+    //FIXME:
+//    DELEGATE (who listens) just here!
+//    extension SavedArticleViewController: DataPersistenceDelegate {
+//        func didSaveItem<T>(_ persistenceHelper: DataPersistence<T>, item: T) where T : Decodable, T : Encodable, T : Equatable {
+//            print("item was saved")
+//        }
+//        func didDeleteItem<T>(_ persistenceHelper: DataPersistence<T>, item: T) where T : Decodable, T : Encodable, T : Equatable {
+//            print("item was deleted")
+//        }
+//    }
+    
+//    private var savedArticles = [Article]() {
+//           didSet {
+//               print("there are \(savedArticles.count) articles")
+//           }
+//       }
+    
+//          // DP Step 13. Call the function
+//            //fetchSavedArticles()
+//        }
+//
+//        // DP Step 12. Conforming to the DataPersistanceDelegate
+//        private func fetchSavedArticles(){
+//            do {
+//                savedArticles = try dataPersistance.loadItems()
+//            } catch {
+//                print("error fetching articles: \(error)")
+//            }
+//        }
+//    }
     
     //var addedCategories: Category
     
@@ -22,6 +53,16 @@ class ShowAllCollectionsController: UIViewController {
     override func loadView() {
         view = showAllCollectionView
     }
+    
+    //INITIALIZERS FOR DATA PERSISTANCE:
+           init(_ dataPersistence: DataPersistence<Collection>){
+               self.dataPersistence = dataPersistence
+               super.init(nibName: nil, bundle: nil)
+           }
+       
+           required init?(coder: NSCoder) {
+               fatalError("init(coder:) has not been implemented")
+           }
     
     var newCategories = [String]() {
         didSet {
@@ -47,17 +88,6 @@ class ShowAllCollectionsController: UIViewController {
         //Do I need it here? PROBABLY YES, unless I can call it somewhere else
         //showAllCollectionView.collectionView.de
     }
-    
-    //INITIALIZERS FOR DATA PERSISTANCE:
-    //    init(_ dataPersistence: DataPersistence<Name>, category: Category){
-    //        self.dataPersistence = dataPersistence
-    //        self.addedCategory: Category = category
-    //        super.init(nibName: nil, bundle: nil)
-    //    }
-    //
-    //    required init?(coder: NSCoder) {
-    //        fatalError("init(coder:) has not been implemented")
-    //    }
     
     @objc func addBarButtonItemPressed(_ sender: UIBarButtonItem) {
         // HERE I AM TRYING TO WRITE A CODE THAT WILL PRESENT ACTION SHEET + TEXTFIELD TO CREATE A NEW CUSTOM COLLECTION
@@ -158,7 +188,7 @@ extension ShowAllCollectionsController: UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         // let newCategory = newCategories[indexPath.row]
-        let categoryVC = CategoryController()
+        let categoryVC = CategoryController(dataPersistence)
         //let categoryVC = CategoryController(dataPersistence, article: article)
         navigationController?.pushViewController(categoryVC, animated: true)
     }
