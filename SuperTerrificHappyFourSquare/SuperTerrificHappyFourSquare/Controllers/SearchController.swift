@@ -23,28 +23,12 @@ class SearchController: UIViewController {
     
     private var location = [Location]()
     
-//    private var searchQuery = "" {
-//        didSet{
-//            DispatchQueue.main.async {
-//                self.getVenueWOCoordinate(query: "", location: "")
-//                self.loadMap()
-//            }
-//        }
-//    }
-//
-//    private var locationQuery = ""  {
-//        didSet{
-//            DispatchQueue.main.async {
-//                self.getVenueWOCoordinate(query: "", location: "")
-//                self.loadMap()
-//            }
-//        }
-//    }
     
     private var venus = [Venue](){
         didSet{
             DispatchQueue.main.async {
                 self.loadMap()
+               self.searchView.venueCollectionView.reloadData()
             }
         }
     }
@@ -52,18 +36,18 @@ class SearchController: UIViewController {
     private var venuePhoto = [PhotoItems](){
         didSet{
             DispatchQueue.main.async {
-                self.loadPhoto(venueID: "")
+               self.searchView.venueCollectionView.reloadData()
             }
         }
     }
     
-  
+    
     
     private let locationSession = CoreLocationHandler()
     
     var userTrackingButton: MKUserTrackingButton!
     
-    var defaultLocation = ""
+    var defaultLocation = "Brooklyn"
     
     var annotations = [MKPointAnnotation]()
     
@@ -86,32 +70,35 @@ class SearchController: UIViewController {
         userTrackingButton = MKUserTrackingButton(frame: CGRect(x: 20, y: 20, width: 40, height: 40))
         userTrackingButton.mapView = searchView.mapView
         searchView.mapView.addSubview(userTrackingButton)
-       // loadMap()
-//        getVenueWOCoordinate(query: "", location: "")
+        //loadMap()
+        //        getVenueWOCoordinate(query: "", location: "")
         mapView.delegate = self
         searchView.venueSearchBar.delegate = self
         searchView.locationSearch.delegate = self
         locationSession.delegate = self
+        
+        searchView.eventsListButton.addTarget(self, action: #selector(listButtonPressed), for: .touchUpInside)
     }
     
     
     
     private func setUp(){
-        searchView.venuesCollectionView.dataSource = self
-        searchView.venuesCollectionView.delegate = self
-        searchView.venuesCollectionView.register(CustomCollectionCell.self, forCellWithReuseIdentifier: "customCollectCell")
+        searchView.venueCollectionView.register(CustomCollectionCell.self, forCellWithReuseIdentifier: "customCollectCell")
+        searchView.venueCollectionView.dataSource = self
+        searchView.venueCollectionView.delegate = self
+        
     }
     
     
     
     private func getVenueWOCoordinate(query: String, location: String){
         
-        let searchQuery = query.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed) ?? "McDonalds"
+        let _ = query.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed) ?? "McDonalds"
         
-        let searchLocation = location.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed) ?? "Queens"
+        let _ = location.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed) ?? "Queens"
         
         FourSquareAPIClient.getVenuesWithoutCoordinates(query: query, location: location) { (result) in
-
+            
             switch result {
             case .failure(let error):
                 print("This is an error I wrote in the API call \(error) CHECK. CHECK")
@@ -122,18 +109,21 @@ class SearchController: UIViewController {
         }
     }
     
-    private func loadPhoto(venueID: String){
-        FourSquareAPIClient.getVenuePhotos(venueID: venueID) { (result) in
-            switch result {
-            case .failure(let error):
-                print("\(error)")
-            case .success(let photo):
-                self.venuePhoto = photo
-                // www.(prefix)/(width)x(height)/(suffix)
-                
-            }
-        }
-    }
+//    private func loadPhoto(venueID: String){
+//        FourSquareAPIClient.getVenuePhotos(venueID: venueID) { (result) in
+//            switch result {
+//            case .failure(let error):
+//                print("\(error)")
+//            case .success(let photo):
+//                self.venuePhoto = photo
+//                // www.(prefix)/(width)x(height)/(suffix)
+//
+//            }
+//        }
+//    }
+    
+    
+    
     
     
     @objc func listButtonPressed(){
@@ -142,12 +132,22 @@ class SearchController: UIViewController {
         present(cv, animated: true)
     }
     
+    
+    
+    
+    
+    
     private func loadMap() {
         let annotations = makeAnnotations()
         // mapView.addAnnotations(annotations)
         searchView.mapView.addAnnotations(annotations)
         searchView.mapView.showAnnotations(annotations, animated: true)
     }
+    
+    
+    
+    
+    
     
     private func makeAnnotations() -> [MKPointAnnotation] {
         var annotations = [MKPointAnnotation]()
@@ -163,6 +163,11 @@ class SearchController: UIViewController {
         return annotations
     }
     
+    
+    
+    
+    
+    
     private func convertPlaceNameToCoordinate(_ placeName: String) {
         locationSession.convertPlaceNameToCoordinate(placeName) { (result) in
             switch result {
@@ -175,6 +180,12 @@ class SearchController: UIViewController {
         }
     }
     
+    
+    
+    
+    
+    
+    
     func loadUserLocation(_ position: CLLocation){
         locationSession.convertCoordinateToPlacemark(position.coordinate) { (result) in
             switch result {
@@ -182,17 +193,23 @@ class SearchController: UIViewController {
                 print("error finding user location: \(error)")
             case .success(let location):
                 self.defaultLocation = location.name ?? ""
-                print(location.name)
+                print(location.name ?? "Mcdonalds")
             }
         }
     }
+    
+    
+    
+    
+    
+    
     
     
     func textFieldSelector(_ textField: UITextField) {
         
         if textField == searchView.locationSearch {
             getVenueWOCoordinate(query: textField.text?.description ?? "Pizza", location: textField.text ?? "laurelton")
-           // print("location search results")
+            // print("location search results")
             print("LOCATION JOHNSON ROD \(String(describing: textField.text))")
             resignFirstResponder()
         }
@@ -200,8 +217,6 @@ class SearchController: UIViewController {
         if textField == searchView.venueSearchBar {
             getVenueWOCoordinate(query: textField.text?.description ?? "pizza", location: textField.text ?? "laurelton" )
             print("VENU search results")
-           
-            
             resignFirstResponder()
         }
         
@@ -211,8 +226,16 @@ class SearchController: UIViewController {
             }
         }
     }
-    
 }
+
+
+
+
+
+
+
+
+
 //---------------------------------------------------------------
 //MARK: EXTENSIONS
 
@@ -259,9 +282,18 @@ extension SearchController: UITextFieldDelegate {
         guard let searchText = textField.text,!searchText.isEmpty else {
             return true
         }
- 
+        
+        if textField == searchView.locationSearch {
+            getVenueWOCoordinate(query: searchView.venueSearchBar.text ?? "Pizza", location: searchView.locationSearch.text ?? "Brooklyn")
+            resignFirstResponder()
+        }
+        
+        if textField == searchView.venueSearchBar {
+            getVenueWOCoordinate(query: searchView.venueSearchBar.text ?? "pizza", location: searchView.locationSearch.text ?? "Brooklyn" )
+            resignFirstResponder()
+        }
         // MARK: ****** FIX THIS ********
-        textFieldSelector(textField)
+        //textFieldSelector(textField)
         convertPlaceNameToCoordinate(searchText)
         
         
@@ -280,11 +312,11 @@ extension SearchController: UICollectionViewDataSource{
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "venueCell", for: indexPath) as? CustomCollectionCell else {
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "customCollectCell", for: indexPath) as? CustomCollectionCell else {
             fatalError("could not cast to cell")
         }
         let venue = venus[indexPath.row]
-        cell.configureMKViewCollectionCell(venue.id)
+        cell.configureMKViewCollectionCell(venue)
         
         return cell
     }

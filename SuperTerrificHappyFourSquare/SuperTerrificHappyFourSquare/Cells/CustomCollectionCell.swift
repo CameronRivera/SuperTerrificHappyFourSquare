@@ -123,23 +123,36 @@ class CustomCollectionCell: UICollectionViewCell {
     }
     
     // TODO: Add real data into these configure cell methods
-    public func configureMKViewCollectionCell(_ model: String){
-        DispatchQueue.main.async{
+    public func configureMKViewCollectionCell(_ model: Venue){
+       DispatchQueue.main.async{
             self.imageView.alpha = 1.0
             self.addButton.alpha = 0.0
             self.tintedView.alpha = 0.0
             self.categoryLabel.alpha = 0.0
         }
-        imageView.getImage(with: model) { [weak self] result in
-            switch result{
-            case .failure:
-                break
-            case .success(let image):
-                DispatchQueue.main.async{
-                    self?.imageView.image = image
+        
+        FourSquareAPIClient.getVenuePhotos(venueID: model.id) { [weak self] (result) in
+            switch result {
+            case .failure(let error):
+                print("error getting image: \(error)")
+            case .success(let photo):
+               let prefix = photo.first?.prefix ?? ""
+               let suffix = photo.first?.suffix ?? ""
+                let imageURL = "\(prefix)original\(suffix)"
+                
+                self?.imageView.getImage(with: imageURL) { [weak self] result in
+                    switch result{
+                    case .failure:
+                        break
+                    case .success(let image):
+                        DispatchQueue.main.async{
+                            self?.imageView.image = image
+                        }
+                    }
                 }
             }
         }
+        
     }
     
     public func configureCategoryCollectionCell(_ model: String){

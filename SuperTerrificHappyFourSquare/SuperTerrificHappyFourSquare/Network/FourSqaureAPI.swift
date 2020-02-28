@@ -29,8 +29,11 @@ struct FourSquareAPIClient {
         
         let request = URLRequest(url: url)
         
+        print("this is my query \(query)")
         
+        print("this is my location \(location)")
         
+        print(url)
         NetworkHelper.shared.performDataTask(with: request) { (result) in
             switch result {
             case .failure(let appError):
