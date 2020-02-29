@@ -65,7 +65,8 @@ class SearchView: UIView {
         let cellLayout = UICollectionViewFlowLayout()
         cellLayout.scrollDirection = .horizontal
         let collectionView = UICollectionView(frame: CGRect.zero, collectionViewLayout: cellLayout)
-        collectionView.backgroundColor = .systemGreen
+        collectionView.backgroundColor = .clear
+        collectionView.layer.shadowColor = UIColor(white: 0.5, alpha: 0.3).cgColor
         return collectionView
     }()
     
@@ -142,8 +143,8 @@ class SearchView: UIView {
         venueCollectionView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             venueCollectionView.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor, constant: -20),
-            venueCollectionView.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor, constant: 50),
-            venueCollectionView.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor, constant: -50),
+            venueCollectionView.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor, constant: 20),
+            venueCollectionView.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor, constant: -20),
             venueCollectionView.heightAnchor.constraint(equalTo: heightAnchor, multiplier: 0.13),
            // venueCollectionView.widthAnchor.constraint(equalTo: safeAreaLayoutGuide.widthAnchor, constant: -20)
         ])

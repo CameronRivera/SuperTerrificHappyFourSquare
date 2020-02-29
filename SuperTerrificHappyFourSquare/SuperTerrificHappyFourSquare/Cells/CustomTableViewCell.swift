@@ -29,7 +29,7 @@ class CustomTableViewCell: UITableViewCell {
 //    }()
 
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
-        super.init(style: .value1, reuseIdentifier: reuseIdentifier)
+        super.init(style: .subtitle, reuseIdentifier: reuseIdentifier)
         //commonInit()
     }
     
@@ -62,20 +62,44 @@ class CustomTableViewCell: UITableViewCell {
 //        NSLayoutConstraint.activate([additionalInfoLabel.topAnchor.constraint(equalTo: venueName.bottomAnchor, constant: -8), additionalInfoLabel.leadingAnchor.constraint(equalTo: venueImage.trailingAnchor, constant: 8), additionalInfoLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -8), additionalInfoLabel.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -8)])
 //    }
     
-    public func configureTableViewCell(_ model: String){
+    public func configureTableViewCell(_ model: Venue){
         // TODO: Replace put in actual model data
-        imageView?.getImage(with: model, completion: { [weak self] result in
-            switch result{
-            case .failure:
-                break
-            case .success(let image):
-                DispatchQueue.main.async{
-                    self?.imageView?.image = image
+        FourSquareAPIClient.getVenuePhotos(venueID: model.id) { [weak self] (result) in
+            switch result {
+            case .failure(let error):
+                print("error getting image: \(error)")
+            case .success(let photo):
+               
+               DispatchQueue.main.async {
+                let prefix = photo.first?.prefix ?? ""
+                let suffix = photo.first?.suffix ?? ""
+                 let imageURL = "\(prefix)original\(suffix)"
+                self?.imageView?.getImage(with: imageURL) { [weak self] result in
+                    switch result{
+                    case .failure(let appError):
+                        print("this is the error we are looking for \(appError)")
+                    case .success(let image):
+                        DispatchQueue.main.async{
+                            self?.imageView?.image = image
+                        }
+                    }
                 }
             }
-        })
-        textLabel?.text = model
-        detailTextLabel?.text = model
+            
+        }
+        }
+//        imageView?.getImage(with: model, completion: { [weak self] result in
+//            switch result{
+//            case .failure:
+//                break
+//            case .success(let image):
+//                DispatchQueue.main.async{
+//                    self?.imageView?.image = image
+//                }
+//            }
+//        })
+        textLabel?.text = model.name
+//        detailTextLabel?.text = model.
     }
 
 }

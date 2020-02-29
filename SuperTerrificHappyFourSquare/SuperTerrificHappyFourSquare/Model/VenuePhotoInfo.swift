@@ -8,10 +8,10 @@
 
 import Foundation
 
-struct VenuePhotoInfo: Codable {
+struct VenuePhotoInfo: Codable & Equatable {
   let response: Response
 }
-struct Response: Codable {
+struct Response: Codable & Equatable {
   let photos: Photos
 }
 struct Photos: Codable & Equatable {

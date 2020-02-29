@@ -18,6 +18,8 @@ class CustomCollectionCell: UICollectionViewCell {
     public lazy var imageView: UIImageView = {
         let imageView = UIImageView()
         imageView.alpha = 1.0
+        imageView.layer.shadowColor = UIColor(white: 0.5, alpha: 0.5).cgColor
+        imageView.layer.cornerRadius = 20
         return imageView
     }()
     
@@ -138,7 +140,7 @@ class CustomCollectionCell: UICollectionViewCell {
             case .success(let photo):
                let prefix = photo.first?.prefix ?? ""
                let suffix = photo.first?.suffix ?? ""
-                let imageURL = "\(prefix)original\(suffix)"
+                let imageURL = "\(prefix)300\(suffix)"
                 
                 self?.imageView.getImage(with: imageURL) { [weak self] result in
                     switch result{

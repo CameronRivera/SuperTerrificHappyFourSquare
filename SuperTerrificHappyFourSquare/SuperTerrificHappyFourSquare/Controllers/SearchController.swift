@@ -15,13 +15,22 @@ import ImageKit
 
 class SearchController: UIViewController {
     
-    //let dataPersistance: DataPersistence<Venue>
+    let dataPersistence: DataPersistence<Collection>
     
     private var searchView = SearchView()
     
     var mapView = MKMapView()
     
     private var location = [Location]()
+    
+    init(_ dataPersistence: DataPersistence<Collection>){
+            self.dataPersistence = dataPersistence
+            super.init(nibName: nil, bundle: nil)
+        }
+    
+        required init?(coder: NSCoder) {
+            fatalError("init(coder:) has not been implemented")
+        }
     
     
     private var venus = [Venue](){
@@ -114,9 +123,12 @@ class SearchController: UIViewController {
     
     
     @objc func listButtonPressed(){
-        let cv = DetailViewController()
+        let catVC = CategoryController(dataPersistence, venues: venus)
+            
+        
+        
         self.modalPresentationStyle = .fullScreen
-        present(cv, animated: true)
+        navigationController?.pushViewController(catVC, animated: true)
     }
     
     
@@ -185,34 +197,6 @@ class SearchController: UIViewController {
         }
     }
     
-    
-    
-    
-    
-    
-    
-    
-//    func textFieldSelector(_ textField: UITextField) {
-//
-//        if textField == searchView.locationSearch {
-//            getVenueWOCoordinate(query: textField.text?.description ?? "Pizza", location: textField.text ?? "laurelton")
-//            // print("location search results")
-//            print("LOCATION JOHNSON ROD \(String(describing: textField.text))")
-//            resignFirstResponder()
-//        }
-//
-//        if textField == searchView.venueSearchBar {
-//            getVenueWOCoordinate(query: textField.text?.description ?? "pizza", location: textField.text ?? "laurelton" )
-//            print("VENU search results")
-//            resignFirstResponder()
-//        }
-//
-//        if textField == searchView.locationSearch {
-//            if textField.text == nil {
-//                textField.text = defaultLocation
-//            }
-//        }
-//    }
 }
 
 
@@ -229,31 +213,25 @@ class SearchController: UIViewController {
 extension SearchController: MKMapViewDelegate {
     
     func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
+        let mappedArr = venus.map{ $0.name }
         
-        let detailVC = DetailViewController()
+        if let title = view.annotation?.title ?? "", let venueIndex = mappedArr.firstIndex(of: title) {
+        let sb = UIStoryboard(name: "DetailTableViewController", bundle: nil)
+        let detailVC = sb.instantiateViewController(identifier: "DetailTableViewController") { [unowned self] (coder) in
+            return DetailTableViewController(coder: coder,self.venus[venueIndex], self.dataPersistence)
+        }
         guard view.annotation != nil else {return}
         navigationController?.pushViewController(detailVC, animated: true)
+        }
     }
     
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
         guard annotation is MKPointAnnotation else {return nil}
         
-//        let identifier = "annotationView"
-//        var annotationView = mapView.dequeueReusableAnnotationView(withIdentifier: identifier) as? MKMarkerAnnotationView
-//
-//
-//        if annotationView == nil {
-//            annotationView = MKMarkerAnnotationView(annotation: annotation, reuseIdentifier: identifier)
-//            annotationView?.canShowCallout = true
-//            annotationView?.glyphImage = UIImage(named:"alexHead")
-//        }else{
-//            annotationView?.annotation = annotation
-//        }
-//        return annotationView
         let identifier = "annotationView"
         
         let annotationView = MKAnnotationView(annotation: annotation, reuseIdentifier: identifier)
-        annotationView.image = UIImage(named: "alexHead")
+        annotationView.image = UIImage(named: "alexHeadSmall")
         annotationView.canShowCallout = true
         return annotationView
     }
@@ -322,7 +300,10 @@ extension SearchController: UICollectionViewDataSource{
 extension SearchController: UICollectionViewDelegateFlowLayout{
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let venu = venus[indexPath.row]
-        let detailVC = DetailViewController()
+        let sb = UIStoryboard(name: "DetailTableViewController", bundle: nil)
+        let detailVC = sb.instantiateViewController(identifier: "DetailTableViewController") { (coder) in
+            return DetailTableViewController(coder: coder, venu, self.dataPersistence)
+        }
         navigationController?.pushViewController(detailVC, animated: true)
         
     }
