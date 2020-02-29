@@ -9,6 +9,7 @@
 import UIKit
 import MapKit
 import ImageKit
+import DataPersistence
 import SafariServices
 
 class DetailTableViewController: UITableViewController {
@@ -25,6 +26,7 @@ class DetailTableViewController: UITableViewController {
     
     private let coreLocationManager = CoreLocationHandler()
     private var venueAnnotation: MKPointAnnotation = MKPointAnnotation()
+    private let dataPersistence: DataPersistence<Collection>
     
     private var currentVenue: ExtendedVenueInfo?{
         didSet{
@@ -34,14 +36,17 @@ class DetailTableViewController: UITableViewController {
         }
     }
     
-//    init(_ venue: ExtendedVenueInfo){
-//        currentVenue = venue
-//        super.init(nibName: nil, bundle: nil)
-//    }
-//
-//    required init?(coder: NSCoder) {
-//        fatalError("init(coder:) has not been implemented")
-//    }
+    private let details: Venue
+    
+    init?(coder: NSCoder, _ venue: Venue, _ dataPersistence: DataPersistence<Collection>){
+        details = venue
+        self.dataPersistence = dataPersistence
+        super.init(coder: coder)
+    }
+
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -56,6 +61,8 @@ class DetailTableViewController: UITableViewController {
     }
     
     private func setUp(){
+        navigationItem.rightBarButtonItem?.target = self
+        navigationItem.rightBarButtonItem?.action = #selector(favouritedButtonPressed(_:))
         configureVenueImage()
         configureOperationStatusLabels()
         configureAddressLabel()
@@ -226,6 +233,14 @@ class DetailTableViewController: UITableViewController {
             }
         }
     }
+    
+    @objc
+    private func favouritedButtonPressed(_ sender: UIBarButtonItem){
+        // TODO: Remove dataPersistence from everywhere except the collectionViewController.
+        // Show an alert, that allows the user to select an option.
+        // Make an initializer with an optional venue.
+        // Make an enumeration to distinguish whether we are creating a new collection, or writing to an existing one.
+    }
 }
 
 extension DetailTableViewController: MKMapViewDelegate{
@@ -249,20 +264,11 @@ extension DetailTableViewController: MKMapViewDelegate{
         guard annotation is MKPointAnnotation else { return nil }
         
         let identifier = "Venue Annotation"
-        var annotationView = mapView.dequeueReusableAnnotationView(withIdentifier: identifier) as? MKMarkerAnnotationView
+        let annotationView = MKAnnotationView(annotation: annotation, reuseIdentifier: identifier)
+        annotationView.image = UIImage(named: "alexHeadSmall")
         
-        if annotationView == nil {
-            annotationView = MKMarkerAnnotationView(annotation: annotation, reuseIdentifier: identifier)
-            annotationView?.canShowCallout = true
-            // Text for the glpyh. If we use this, the image will not show up.
-            // annotationView?.glyphText = ""
-            
-            // An image for the annotation. If we use this, we cannot use text. The tint colour can be used to change the colour of the image.
-            // annotationView?.glyphImage = UIImage(named: "alexHead")
-            // annotationView?.glyphTintColor
-        } else {
-            annotationView?.annotation = annotation
-        }
+            annotationView.canShowCallout = true
+       
         return annotationView
     }
     

@@ -49,6 +49,7 @@ class ShowAllCollectionsController: UIViewController {
     //var addedCategories: Category
     
     var nameOfNewCategory = String()
+    var showAll = [Collection]()
     
     override func loadView() {
         view = showAllCollectionView
@@ -188,7 +189,7 @@ extension ShowAllCollectionsController: UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         // let newCategory = newCategories[indexPath.row]
-        let categoryVC = CategoryController(dataPersistence)
+        let categoryVC = CategoryController(dataPersistence, venues: showAll[indexPath.row].savedCollections)
         //let categoryVC = CategoryController(dataPersistence, article: article)
         navigationController?.pushViewController(categoryVC, animated: true)
     }

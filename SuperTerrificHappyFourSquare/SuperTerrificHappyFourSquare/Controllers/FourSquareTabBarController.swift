@@ -11,7 +11,7 @@ import DataPersistence
 
 struct Collection: Codable & Equatable {
     var name = String()
-    var savedCollections = [VenueDetails]()
+    var savedCollections = [Venue]()
 }
 
 class FourSquareTabBarController: UITabBarController {
@@ -22,6 +22,7 @@ class FourSquareTabBarController: UITabBarController {
     //VC1:
     private lazy var searchController: SearchController = {
         let viewController = SearchController(tabBarInstanceOfDataPersistence)
+//        let viewController = SearchController()
         viewController.tabBarItem = UITabBarItem(title: "Search", image: UIImage(systemName: "magnifyingglass"), tag: 0)
         //FIXME: I dont think we need to use DataPersistence here at all
         //viewController.dataPersistence = tabBarInstanceOfDataPersistence

@@ -8,15 +8,15 @@
 
 import Foundation
 
-struct VenueData: Codable {
+struct VenueData: Codable & Equatable {
     let response: VenueInfo
 }
 
-struct VenueInfo: Codable {
+struct VenueInfo: Codable & Equatable {
     let venues: [Venue]
 }
 
-struct Venue: Codable {
+struct Venue: Codable & Equatable {
     let id: String
     let name: String
     let location: Location
@@ -35,7 +35,7 @@ struct Venue: Codable {
     }
 }
 
-struct Location: Codable {
+struct Location: Codable & Equatable {
     let address, crossStreet: String?
     let lat: Double
     let lng: Double
@@ -48,7 +48,7 @@ struct Location: Codable {
     let neighborhood: String?
 }
 
-struct Category: Codable {
+struct Category: Codable & Equatable {
     let id: String
     let name: String
     let pluralName: String
@@ -57,7 +57,7 @@ struct Category: Codable {
     let primary: Bool
 }
 
-struct Icon: Codable {
+struct Icon: Codable & Equatable {
     let iconPrefix: String
     let suffix: String
 
@@ -67,7 +67,7 @@ struct Icon: Codable {
     }
 }
 
-struct VenuePage: Codable {
+struct VenuePage: Codable & Equatable {
     let id: String
 }
 
