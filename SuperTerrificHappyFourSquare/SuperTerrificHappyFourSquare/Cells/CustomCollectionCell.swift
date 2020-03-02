@@ -40,6 +40,7 @@ class CustomCollectionCell: UICollectionViewCell {
         button.setTitle("", for: .normal)
         button.setBackgroundImage(UIImage(systemName: "plus"), for: .normal)
         button.addTarget(self, action: #selector(addButtonPressed), for: .touchUpInside)
+        button.isUserInteractionEnabled = false
         return button
     }()
     
@@ -157,25 +158,25 @@ class CustomCollectionCell: UICollectionViewCell {
         
     }
     
-    public func configureCategoryCollectionCell(_ model: String){
+    public func configureCategoryCollectionCell(_ model: Collection){
         DispatchQueue.main.async{
             self.imageView.alpha = 1.0
             self.addButton.alpha = 0.0
             self.tintedView.alpha = 0.0
             self.categoryLabel.alpha = 1.0
-            self.categoryLabel.text = model
+            self.categoryLabel.text = model.name
             //FIXME:
             self.imageView.image = UIImage(named: "LocationIcon")
         }
     }
     // This function is potentially the same as the one above.
-    public func configureAddNewCategoryCell(_ model: String){
+    public func configureAddNewCategoryCell(_ model: Collection){
         DispatchQueue.main.async{
             self.imageView.alpha = 0.0
             self.addButton.alpha = 1.0
             self.tintedView.alpha = 0.6
             self.categoryLabel.alpha = 1.0
-            self.categoryLabel.text = model
+            self.categoryLabel.text = model.name
         }
     }
 }

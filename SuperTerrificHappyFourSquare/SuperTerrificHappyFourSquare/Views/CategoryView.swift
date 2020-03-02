@@ -12,7 +12,7 @@ class CategoryView: UIView {
 
    public lazy var tableView: UITableView = {
         let tv = UITableView()
-        tv.backgroundColor = .systemRed
+        tv.backgroundColor = .systemBackground
         return tv
     }()
 

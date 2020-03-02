@@ -92,6 +92,7 @@ class SearchController: UIViewController {
     
     
     private func setUp(){
+        navigationItem.title = "Search Venues"
         searchView.venueCollectionView.register(CustomCollectionCell.self, forCellWithReuseIdentifier: "customCollectCell")
         searchView.venueCollectionView.dataSource = self
         searchView.venueCollectionView.delegate = self
@@ -231,7 +232,7 @@ extension SearchController: MKMapViewDelegate {
         let identifier = "annotationView"
         
         let annotationView = MKAnnotationView(annotation: annotation, reuseIdentifier: identifier)
-        annotationView.image = UIImage(named: "alexHeadSmall")
+        annotationView.image = UIImage(named: "alexHeadThumbnail")
         annotationView.canShowCallout = true
         return annotationView
     }
