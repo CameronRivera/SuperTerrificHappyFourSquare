@@ -62,3 +62,32 @@ let firstOperation = BlockOperation{
     operationQueue.addOperation(secondOperation)
     operationQueue.addOperation(thirdOperation)
   }
+  
+  
+  Jaheed Haynes (contributor)
+
+The Main search controller (map controller)  presented many unexpected challenges. The most challenging portion was the text field searches. Initially when making the app I didn’t account that the two text fields had to be assigned specific search parameters. At first the text fields would populate the map with random things rather than the specific search of the user. I added a function that’s listed below that corrected this problem
+
+swift
+func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        guard let searchText = textField.text,!searchText.isEmpty else {
+            return true
+        }
+        
+        if textField == searchView.locationSearch {
+            getVenueWOCoordinate(query: searchView.venueSearchBar.text ?? "Pizza", location: searchView.locationSearch.text ?? "Brooklyn")
+            resignFirstResponder()
+        }
+        
+        if textField == searchView.venueSearchBar {
+            getVenueWOCoordinate(query: searchView.venueSearchBar.text ?? "pizza", location: searchView.locationSearch.text ?? "Brooklyn" )
+            resignFirstResponder()
+        }
+        // MARK: ****** FIX THIS ********
+        //textFieldSelector(textField)
+        convertPlaceNameToCoordinate(searchText)
+        
+        
+        return true
+    }
