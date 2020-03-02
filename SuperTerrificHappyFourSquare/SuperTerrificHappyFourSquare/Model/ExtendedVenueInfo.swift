@@ -84,5 +84,5 @@ struct Attribute: Codable & Equatable {
 
 struct Group: Codable & Equatable {
     let type: String
-    let summary: String
+    let summary: String?
 }

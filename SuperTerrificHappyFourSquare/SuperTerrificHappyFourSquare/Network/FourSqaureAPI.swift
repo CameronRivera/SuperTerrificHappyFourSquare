@@ -16,7 +16,7 @@ struct FourSquareAPIClient {
     static func getVenuesWithoutCoordinates (query: String, location: String, completion: @escaping (Result<[Venue], AppError>) -> ()){
         
         
-        let endpointURL = "https://api.foursquare.com/v2/venues/search?client_id=\(APIKey.clientID)&client_secret=\(APIKey.clientSecret)&v=20200221&near=\(location)&query=\(query)&limit=10"
+        let endpointURL = "https://api.foursquare.com/v2/venues/search?client_id=\(APIKey.clientID)&client_secret=\(APIKey.clientSecret)&v=20200221&near=\(location)&query=\(query)&limit=1"
         
         // Think about how to guard/remove/replace non-alphabet strings/characters to be placed into endpoint url
         

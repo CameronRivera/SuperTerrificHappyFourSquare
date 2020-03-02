@@ -31,11 +31,12 @@ class DetailTableViewController: UITableViewController {
     private var currentVenue: ExtendedVenueInfo?{
         didSet{
             DispatchQueue.main.async{
-                self.setUp()
+                self.setUpStepTwo()
             }
         }
     }
     
+    private let operationQueue = OperationQueue()
     private let details: Venue
     
     init?(coder: NSCoder, _ venue: Venue, _ dataPersistence: DataPersistence<Collection>){
@@ -50,17 +51,38 @@ class DetailTableViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        FourSquareAPIClient.getVenueDetails(venueID: "54b8377e498e68ed33de10cc") { [weak self] (result) in
+        let firstOperation = BlockOperation{
+            let dispatchGroup = DispatchGroup()
+            dispatchGroup.enter()
+            self.setUpStepOne(dispatchGroup)
+            dispatchGroup.wait()
+        }
+        
+        let secondOperation = BlockOperation{
+            DispatchQueue.main.async{
+                self.setUpStepTwo()
+            }
+        }
+        
+        secondOperation.addDependency(firstOperation)
+        operationQueue.addOperation(firstOperation)
+        operationQueue.addOperation(secondOperation)
+    }
+    
+    private func setUpStepOne(_ group: DispatchGroup){
+        FourSquareAPIClient.getVenueDetails(venueID: details.id) { [weak self] (result) in
             switch result{
             case .failure(let appError):
                 print("There was an error loading venue details: \(appError)")
+                group.leave()
             case .success(let exVenueInfo):
                 self?.currentVenue = exVenueInfo
+                group.leave()
             }
         }
     }
     
-    private func setUp(){
+    private func setUpStepTwo(){
         navigationItem.rightBarButtonItem?.target = self
         navigationItem.rightBarButtonItem?.action = #selector(favouritedButtonPressed(_:))
         configureVenueImage()
@@ -93,7 +115,8 @@ class DetailTableViewController: UITableViewController {
     
     private func configureOperationStatusLabels(){
         guard let currentVenue = currentVenue else {
-            fatalError("Failed to properly pass data.")
+            print("Failed to properly pass data.")
+            return
         }
         
         if let isOpen = currentVenue.response.venue.popular?.isOpen {
@@ -120,7 +143,8 @@ class DetailTableViewController: UITableViewController {
     
     private func configureAddressLabel(){
         guard let currentVenue = currentVenue else {
-            fatalError("Could not successfully pass data.")
+            print("Could not successfully pass data.")
+            return
         }
         DispatchQueue.main.async{
             self.addressLabel.text = currentVenue.response.venue.location.address
@@ -130,7 +154,8 @@ class DetailTableViewController: UITableViewController {
     
     private func configureCategoriesAndPriceLabel() {
         guard let currentVenue = currentVenue else {
-            fatalError("Failed to properly pass data.")
+            print("Failed to properly pass data.")
+            return
         }
         navigationItem.title = currentVenue.response.venue.name
         if let price = currentVenue.response.venue.attributes?.groups.filter({ $0.type.lowercased() == "price"}).first?.summary {
@@ -167,7 +192,8 @@ class DetailTableViewController: UITableViewController {
     
     private func configureContactInformation(){
         guard let currentVenue = currentVenue else {
-            fatalError("Did not successfully pass data.")
+            print("Did not successfully pass data.")
+            return
         }
         if let phoneNumber = currentVenue.response.venue.contact.formattedPhone {
             DispatchQueue.main.async{
@@ -192,7 +218,8 @@ class DetailTableViewController: UITableViewController {
 
     private func makeAnnotations() {
         guard let currentVenue = currentVenue else {
-            fatalError("Data was not properly passed.")
+            print("Data was not properly passed.")
+            return
         }
         let annotation = MKPointAnnotation()
         annotation.title = currentVenue.response.venue.name
@@ -208,7 +235,8 @@ class DetailTableViewController: UITableViewController {
     
     @IBAction func directionsButtonPressed(_ sender: UIButton){
         guard let currentVenue = currentVenue else {
-            fatalError("Did not properly pass data")
+            print("Did not properly pass data")
+            return
         }
         let request = MKDirections.Request()
         request.source = MKMapItem(placemark: MKPlacemark(coordinate: CLLocationCoordinate2D(latitude: currentVenue.response.venue.location.lat - 1, longitude: currentVenue.response.venue.location.lng - 1), addressDictionary: nil))
@@ -240,6 +268,10 @@ class DetailTableViewController: UITableViewController {
         // Show an alert, that allows the user to select an option.
         // Make an initializer with an optional venue.
         // Make an enumeration to distinguish whether we are creating a new collection, or writing to an existing one.
+        // Create a new viewController to present when the favourites button is pressed.
+        let favouriteVC = FavouriteOptionsViewController(dataPersistence, self.tabBarController!, details)
+        favouriteVC.modalPresentationStyle = .currentContext
+        present(favouriteVC, animated: true, completion: nil)
     }
 }
 
@@ -265,7 +297,7 @@ extension DetailTableViewController: MKMapViewDelegate{
         
         let identifier = "Venue Annotation"
         let annotationView = MKAnnotationView(annotation: annotation, reuseIdentifier: identifier)
-        annotationView.image = UIImage(named: "alexHeadSmall")
+        annotationView.image = UIImage(named: "alexHeadThumbnail")
         
             annotationView.canShowCallout = true
        

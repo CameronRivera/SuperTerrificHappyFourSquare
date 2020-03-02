@@ -15,12 +15,12 @@
 		C4491E21240082E300D47255 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C4491E20240082E300D47255 /* Assets.xcassets */; };
 		C4491E24240082E300D47255 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C4491E22240082E300D47255 /* LaunchScreen.storyboard */; };
 		C4491E30240083E200D47255 /* FourSquareTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4491E2F240083E200D47255 /* FourSquareTabBarController.swift */; };
-		C4491E322400840600D47255 /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4491E312400840600D47255 /* DetailViewController.swift */; };
+		C4491E322400840600D47255 /* FavouriteOptionsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4491E312400840600D47255 /* FavouriteOptionsViewController.swift */; };
 		C4491E34240084EE00D47255 /* CategoryController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4491E33240084EE00D47255 /* CategoryController.swift */; };
 		C4491E362400857200D47255 /* ShowAllCollectionsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4491E352400857200D47255 /* ShowAllCollectionsController.swift */; };
 		C4491E382400867100D47255 /* SearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4491E372400867100D47255 /* SearchView.swift */; };
 		C4491E3A2400867E00D47255 /* CategoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4491E392400867E00D47255 /* CategoryView.swift */; };
-		C4491E3C2400868900D47255 /* DetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4491E3B2400868900D47255 /* DetailView.swift */; };
+		C4491E3C2400868900D47255 /* FavouriteOptionsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4491E3B2400868900D47255 /* FavouriteOptionsView.swift */; };
 		C4491E3E2400869C00D47255 /* ShowAllCollections.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4491E3D2400869C00D47255 /* ShowAllCollections.swift */; };
 		C4491E40240086B600D47255 /* EmptyStateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4491E3F240086B600D47255 /* EmptyStateView.swift */; };
 		C4491E42240086CC00D47255 /* FourSqaureAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4491E41240086CC00D47255 /* FourSqaureAPI.swift */; };
@@ -32,6 +32,7 @@
 		C4491E5D2400880500D47255 /* VenueInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4491E5C2400880500D47255 /* VenueInfo.swift */; };
 		C4491E60240088C600D47255 /* ImageKit in Frameworks */ = {isa = PBXBuildFile; productRef = C4491E5F240088C600D47255 /* ImageKit */; };
 		C4491E62240089B100D47255 /* APIKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4491E61240089B100D47255 /* APIKey.swift */; };
+		C45C9FBC240D8404000CB2E0 /* CurrentCollectionState.swift in Sources */ = {isa = PBXBuildFile; fileRef = C45C9FBB240D8404000CB2E0 /* CurrentCollectionState.swift */; };
 		C4999C342408580500D55002 /* DetailTableViewController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C4999C332408580500D55002 /* DetailTableViewController.storyboard */; };
 		C4999C36240858CA00D55002 /* DetailTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4999C35240858CA00D55002 /* DetailTableViewController.swift */; };
 /* End PBXBuildFile section */
@@ -57,12 +58,12 @@
 		C4491E23240082E300D47255 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		C4491E25240082E300D47255 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C4491E2F240083E200D47255 /* FourSquareTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FourSquareTabBarController.swift; sourceTree = "<group>"; };
-		C4491E312400840600D47255 /* DetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
+		C4491E312400840600D47255 /* FavouriteOptionsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavouriteOptionsViewController.swift; sourceTree = "<group>"; };
 		C4491E33240084EE00D47255 /* CategoryController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryController.swift; sourceTree = "<group>"; };
 		C4491E352400857200D47255 /* ShowAllCollectionsController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShowAllCollectionsController.swift; sourceTree = "<group>"; };
 		C4491E372400867100D47255 /* SearchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchView.swift; sourceTree = "<group>"; };
 		C4491E392400867E00D47255 /* CategoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryView.swift; sourceTree = "<group>"; };
-		C4491E3B2400868900D47255 /* DetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailView.swift; sourceTree = "<group>"; };
+		C4491E3B2400868900D47255 /* FavouriteOptionsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavouriteOptionsView.swift; sourceTree = "<group>"; };
 		C4491E3D2400869C00D47255 /* ShowAllCollections.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShowAllCollections.swift; sourceTree = "<group>"; };
 		C4491E3F240086B600D47255 /* EmptyStateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyStateView.swift; sourceTree = "<group>"; };
 		C4491E41240086CC00D47255 /* FourSqaureAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FourSqaureAPI.swift; sourceTree = "<group>"; };
@@ -75,6 +76,7 @@
 		C4491E552400879C00D47255 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C4491E5C2400880500D47255 /* VenueInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VenueInfo.swift; sourceTree = "<group>"; };
 		C4491E61240089B100D47255 /* APIKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIKey.swift; sourceTree = "<group>"; };
+		C45C9FBB240D8404000CB2E0 /* CurrentCollectionState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentCollectionState.swift; sourceTree = "<group>"; };
 		C4999C332408580500D55002 /* DetailTableViewController.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = DetailTableViewController.storyboard; sourceTree = "<group>"; };
 		C4999C35240858CA00D55002 /* DetailTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailTableViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -157,7 +159,7 @@
 			children = (
 				C4491E1B240082E100D47255 /* SearchController.swift */,
 				C4491E33240084EE00D47255 /* CategoryController.swift */,
-				C4491E312400840600D47255 /* DetailViewController.swift */,
+				C4491E312400840600D47255 /* FavouriteOptionsViewController.swift */,
 				C4491E352400857200D47255 /* ShowAllCollectionsController.swift */,
 				C4491E2F240083E200D47255 /* FourSquareTabBarController.swift */,
 				C4999C35240858CA00D55002 /* DetailTableViewController.swift */,
@@ -170,7 +172,7 @@
 			children = (
 				C4491E372400867100D47255 /* SearchView.swift */,
 				C4491E392400867E00D47255 /* CategoryView.swift */,
-				C4491E3B2400868900D47255 /* DetailView.swift */,
+				C4491E3B2400868900D47255 /* FavouriteOptionsView.swift */,
 				C4491E3D2400869C00D47255 /* ShowAllCollections.swift */,
 				C4491E3F240086B600D47255 /* EmptyStateView.swift */,
 			);
@@ -210,6 +212,7 @@
 				C4491E61240089B100D47255 /* APIKey.swift */,
 				C40D6F922405DB6C00428826 /* VenuePhotoInfo.swift */,
 				C4128B2024070A74009A972F /* ExtendedVenueInfo.swift */,
+				C45C9FBB240D8404000CB2E0 /* CurrentCollectionState.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -326,9 +329,9 @@
 				C4491E30240083E200D47255 /* FourSquareTabBarController.swift in Sources */,
 				C4491E1C240082E100D47255 /* SearchController.swift in Sources */,
 				C4491E3E2400869C00D47255 /* ShowAllCollections.swift in Sources */,
-				C4491E322400840600D47255 /* DetailViewController.swift in Sources */,
+				C4491E322400840600D47255 /* FavouriteOptionsViewController.swift in Sources */,
 				C4128B2124070A74009A972F /* ExtendedVenueInfo.swift in Sources */,
-				C4491E3C2400868900D47255 /* DetailView.swift in Sources */,
+				C4491E3C2400868900D47255 /* FavouriteOptionsView.swift in Sources */,
 				C4491E362400857200D47255 /* ShowAllCollectionsController.swift in Sources */,
 				C40D6F932405DB6C00428826 /* VenuePhotoInfo.swift in Sources */,
 				C4491E40240086B600D47255 /* EmptyStateView.swift in Sources */,
@@ -342,6 +345,7 @@
 				C4491E4A2400874E00D47255 /* CustomCollectionCell.swift in Sources */,
 				C4491E34240084EE00D47255 /* CategoryController.swift in Sources */,
 				C4491E472400870000D47255 /* CoreLocationHandler.swift in Sources */,
+				C45C9FBC240D8404000CB2E0 /* CurrentCollectionState.swift in Sources */,
 				C4491E3A2400867E00D47255 /* CategoryView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

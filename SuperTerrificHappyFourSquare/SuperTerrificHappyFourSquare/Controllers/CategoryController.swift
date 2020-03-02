@@ -17,14 +17,6 @@ class CategoryController: UIViewController {
     private var refreshController: UIRefreshControl!
     
     private var venues: [Venue]
-    private var countDown: Int {
-        didSet{
-            if countDown == 0{
-                sleep(1)
-                categoryView.tableView.reloadData()
-            }
-        }
-    }
     
     //var addedVenue: Venue
     
@@ -50,15 +42,12 @@ class CategoryController: UIViewController {
     init(_ dataPersistence: DataPersistence<Collection>, venues: [Venue]){
         self.dataPersistence = dataPersistence
         self.venues = venues
-        self.countDown = venues.count
         super.init(nibName: nil, bundle: nil)
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
-    
     
     func configureRefreshControl(){
         refreshController = UIRefreshControl()
@@ -86,11 +75,6 @@ extension CategoryController: UITableViewDataSource {
         cell.configureTableViewCell(venues[indexPath.row])
         cell.backgroundColor = .systemGroupedBackground
         
-        //Used for testing purpose
-        //cell.configureTableViewCell("Test")
-//        categoryView.tableView.reloadData()
-//        tableView.reloadRows(at: [IndexPath(row: indexPath.row, section: 0)], with: .automatic)
-        countDown -= 1
         return cell
     }
 }
