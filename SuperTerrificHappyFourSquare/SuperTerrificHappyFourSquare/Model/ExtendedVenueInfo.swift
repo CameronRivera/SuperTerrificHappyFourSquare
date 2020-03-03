@@ -38,9 +38,6 @@ struct VenueCategories: Codable & Equatable {
 
 struct ContactInfo: Codable & Equatable {
     let  formattedPhone: String?
-    // let twitter: String
-    // let instagram: String
-    // let faceboookName: String
 }
 
 struct LocationInfo: Codable & Equatable {
