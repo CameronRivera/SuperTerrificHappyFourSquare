@@ -95,7 +95,9 @@ func textFieldShouldReturn(_ textField: UITextField) -> Bool {
 
 Collaborator: Chelsi Christmas 
 
-    As a new developer, the root of my challenges tend to stem from my understanding of different features of code development. My greatest challenge in this project was breaking down the components/parameters of each endpoint to create the APIClient and developing the projects unit tests. Our project utilized four endpoints. Through the use of Postman, a tool used to test API endpoints, I was able to decipher the correct placement of each parameter. Within the APIClient,  I provided each function with their respective parameters. I also created unit tests for each endpoint that determined the validity of the functions. Through these tasks, centered around our projects network services, I developed a better understanding of URL Session, Postman, and Unit Testing. 
+As a new developer, the root of my challenges tend to stem from my understanding of different features of code development. My greatest challenge in this project was breaking down the components/parameters of each endpoint to create the APIClient and developing the projects unit tests. Our project utilized four endpoints. Through the use of Postman, a tool used to test API endpoints, I was able to decipher the correct placement of each parameter. Within the APIClient,  I provided each function with their respective parameters. I also created unit tests for each endpoint that determined the validity of the functions. Through these tasks, centered around our projects network services, I developed a better understanding of URL Session, Postman, and Unit Testing.
+
+     
     
     swift
     
