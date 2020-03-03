@@ -96,3 +96,27 @@ func textFieldShouldReturn(_ textField: UITextField) -> Bool {
 Collaborator: Chelsi Christmas 
 
     As a new developer, the root of my challenges tend to stem from my understanding of different features of code development. My greatest challenge in this project was breaking down the components/parameters of each endpoint to create the APIClient and developing the projects unit tests. Our project utilized four endpoints. Through the use of Postman, a tool used to test API endpoints, I was able to decipher the correct placement of each parameter. Within the APIClient,  I provided each function with their respective parameters. I also created unit tests for each endpoint that determined the validity of the functions. Through these tasks, centered around our projects network services, I developed a better understanding of URL Session, Postman, and Unit Testing. 
+    
+    swift
+    
+    static func getVenuesWithCoordinates(query: String, latitude: String, longitude: String, completion: @escaping (Result<[Venue], AppError>) -> ()) {
+        let endpointURL = "https://api.foursquare.com/v2/venues/search?client_id=\(APIKey.clientID)&client_secret=\(APIKey.clientSecret)&v=20170210&ll=\(latitude),\(longitude)&query=\(query)"
+        guard let url = URL(string: endpointURL) else {
+            completion(.failure(.badURL(endpointURL)))
+            return
+        }
+        let request = URLRequest(url: url)
+        NetworkHelper.shared.performDataTask(with: request) { (request) in
+            switch request {
+            case .failure(let appError):
+                completion(.failure(.networkClientError(appError)))
+            case .success(let data):
+                do {
+                    let search = try JSONDecoder().decode(VenueData.self, from: data)
+                    completion(.success(search.response.venues))
+                } catch {
+                    completion(.failure(.decodingError(error)))
+                }
+            }
+        }
+    }
