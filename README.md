@@ -70,11 +70,6 @@ The Main search controller (map controller)  presented many unexpected challenge
 
 swift
 
-func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        textField.resignFirstResponder()
-        guard let searchText = textField.text,!searchText.isEmpty else {
-            return true
-        }
         
         if textField == searchView.locationSearch {
             getVenueWOCoordinate(query: searchView.venueSearchBar.text ?? "Pizza", location: searchView.locationSearch.text ?? "Brooklyn")
@@ -85,7 +80,7 @@ func textFieldShouldReturn(_ textField: UITextField) -> Bool {
             getVenueWOCoordinate(query: searchView.venueSearchBar.text ?? "pizza", location: searchView.locationSearch.text ?? "Brooklyn" )
             resignFirstResponder()
         }
-        // MARK: ****** FIX THIS ********
+        
         //textFieldSelector(textField)
         convertPlaceNameToCoordinate(searchText)
         
