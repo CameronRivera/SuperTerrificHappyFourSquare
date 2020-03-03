@@ -125,3 +125,17 @@ As a new developer, the root of my challenges tend to stem from my understanding
             }
         }
     }
+
+
+
+Contributor: Yuliia Engman
+I was excited to work as part of terrific team on such application. We replicated a Foursquare City Guide and at the same time every contributor added own personal touch to it either in form of customized UI elements or creative code. 
+There were a lot of challenges in our project, but having very supportive and dedicative members our team was successfully completed the project before dead line.
+Working on the part of the project that was assign to me, such as TabBarController, ShowAllCollectionsController, CategoryController and related Views, I was able to perform working code, but also learned a lot from my team members, who advised how to write code “cleaner”, that helped me to improve my technical skills.
+
+
+Thank you, team, for nice work together. Sometimes, it was not easy due to challenges we faced, but it felt that all of us did their best to achieve our goal to create an app and we eventually did it!
+
+Special thanks to Cameron, who kept working and improving the app and we ended up having presentable project.
+
+I will be happy to remove commented out parts of the project (to “polish” the project) and I have a few questions about some parts of the code (to know for future).
