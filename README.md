@@ -138,7 +138,6 @@ I will be happy to remove commented out parts of the project (to “polish” th
 
 
 swift
-
 private func deleteCollectionButtonPressed(_ customCollectionCell: CustomCollectionCell) {
           guard let index = showAllCollectionView.collectionView.indexPath(for: customCollectionCell) else {
               return
