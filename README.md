@@ -135,3 +135,26 @@ Thank you, team, for nice work together. Sometimes, it was not easy due to chall
 Special thanks to Cameron, who kept working and improving the app and we ended up having presentable project.
 
 I will be happy to remove commented out parts of the project (to “polish” the project) and I have a few questions about some parts of the code (to know for future).
+
+
+swift
+
+private func deleteCollectionButtonPressed(_ customCollectionCell: CustomCollectionCell) {
+          guard let index = showAllCollectionView.collectionView.indexPath(for: customCollectionCell) else {
+              return
+          }
+          let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+          let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)
+          let deleteAction = UIAlertAction(title: "Delete This Collection", style: .destructive) {
+              UIAlertAction in
+              self.deleteCollection(self.showAll, index.row)
+              print("Deleted collection with name: \(self.nameOfNewCategory)")
+          }
+          alertController.addAction(cancelAction)
+          alertController.addAction(deleteAction)
+          present(alertController, animated: true)
+      }
+      private func deleteCollection(_ collectionCategory: [Collection], _ index: Int) {
+          showAll[index].savedCollections.removeAll()
+          showAll.remove(at: index)
+      }
