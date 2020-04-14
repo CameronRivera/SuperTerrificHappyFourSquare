@@ -132,8 +132,7 @@ Working on the part of the project that was assign to me, such as TabBarControll
 
 Thank you, team, for nice work together. Sometimes, it was not easy due to challenges we faced, but it felt that all of us did their best to achieve our goal to create an app and we eventually did it!
 
-
-swift
+    swift
 
     extension ShowAllCollectionsController: CustomCollectionCellDelegate {
     
