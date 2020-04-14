@@ -135,7 +135,7 @@ Thank you, team, for nice work together. Sometimes, it was not easy due to chall
 
 swift
 
-extension ShowAllCollectionsController: CustomCollectionCellDelegate {
+    extension ShowAllCollectionsController: CustomCollectionCellDelegate {
     
     func deleteCollectionButtonPressed(_ customCollectionCell: CustomCollectionCell) {
         guard let index = showAllCollectionView.collectionView.indexPath(for: customCollectionCell) else {
@@ -145,8 +145,6 @@ extension ShowAllCollectionsController: CustomCollectionCellDelegate {
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)
         let deleteAction = UIAlertAction(title: "Delete This Collection", style: .destructive) {
             UIAlertAction in
-            //self.deleteCollection(card)
-            //self.newCategories.append(self.nameOfNewCategory)
             self.deleteCollection(self.showAll, index.row)
             print("Deleted collection with name: \(self.nameOfNewCategory)")
         }
@@ -159,4 +157,4 @@ extension ShowAllCollectionsController: CustomCollectionCellDelegate {
         showAll[index].savedCollections.removeAll()
         showAll.remove(at: index)
     }
-}
+    }
